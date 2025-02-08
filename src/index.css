@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Anonymous+Pro:wght@400;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-purple: #A780C0;
+  --color-gray: #D9D9D9;
+}
+
+.font-anonymous {
+  font-family: "Anonymous Pro", monospace;
+}
+
+.font-anton {
+  font-family: "Anton", sans-serif;
+}
