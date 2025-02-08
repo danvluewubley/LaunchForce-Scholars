@@ -4,7 +4,7 @@ import { Info } from "../components/Info";
 
 export const Home = () => {
   return (
-    <div className="h-screen">
+    <div className="flex flex-col">
       <Hero />
       <Info />
     </div>

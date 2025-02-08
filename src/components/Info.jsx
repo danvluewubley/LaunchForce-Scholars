@@ -2,7 +2,7 @@ import React from "react";
 
 export const Info = () => {
   return (
-    <div className="h-[1910px] w-full">
+    <div className="w-full">
       <p className="pt-[40px] font-anton text-purple pl-[100px] text-[40px]">
         What We Do
       </p>
