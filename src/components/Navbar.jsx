@@ -7,10 +7,10 @@ export const Navbar = () => {
 
   return (
     <div className="w-full bg-black">
-      <nav className="max-w-screen-xl mx-auto flex justify-between items-center h-[166px] px-6">
+      <nav className="max-w-screen-xl mx-auto flex justify-between items-center h-[120px] px-6">
         <Link
           to="/"
-          className="font-anton text-purple-500 text-[45px] whitespace-nowrap"
+          className="font-anton text-purple text-[45px] whitespace-nowrap"
         >
           LaunchForce Scholars
         </Link>
@@ -60,7 +60,7 @@ export const Navbar = () => {
           </li>
           <li>
             <Link to="/login" className="link">
-              Login
+              LOGIN
             </Link>
           </li>
         </ul>

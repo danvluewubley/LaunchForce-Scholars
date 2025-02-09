@@ -27,7 +27,7 @@ function App() {
             <Route path="/match-revise" element={<Match />} />
             <Route path="/admissions-insider" element={<Admission />} />
             <Route path="/email-list" element={<EmailList />} />
-            <Route path="/team" element={<Team />} />
+            <Route path="/apply" element={<Team />} />
           </Routes>
         </main>
         <Footer />
