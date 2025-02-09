@@ -1,9 +1,20 @@
-import React from 'react'
+import React from "react";
 
 export const Community = () => {
   return (
-    <div>
-      <p>Community</p>
+    <div className="h-max-screen flex flex-col items-center">
+      <h2 className="font-anton text-[100px] pt-12">COMMUNITY</h2>
+      <p className="font-anonymous text-[40px] w-[80%]">
+        Join our Discord server to enter a virtual community to conveniently
+        receive feedback on applications, grow your network, exchange internship
+        anecdotes and advice, and more!
+      </p>
+      <button
+        className="font-anton text-[40px] bg-purple py-2 px-4 cursor-pointer"
+        onClick={() => window.open("https://discord.gg/AsChQ88CCQ")}
+      >
+        JOIN HERE
+      </button>
     </div>
-  )
-}
+  );
+};

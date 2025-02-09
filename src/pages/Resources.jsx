@@ -1,9 +1,9 @@
-import React from 'react'
-import { Section } from '../components/Section';
+import React from "react";
+import { Section } from "../components/Section";
 
 export const Resources = () => {
   return (
-    <div className="min-h-screen bg-dark-gray pt-[60px]">
+    <div className="min-h-screen pt-[60px]">
       {/* Program Compass Section */}
       <Section
         title="Program Compass"
