@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Section } from "../components/Section";
 
 export const Resources = () => {
+  useEffect(() => {
+    document.title = "Resources";
+  });
+
   return (
     <div className="min-h-screen pt-[60px]">
       {/* Program Compass Section */}

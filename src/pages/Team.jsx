@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Role } from "../components/Role";
 
 export const Team = () => {
+  useEffect(() => {
+    document.title = "Apply";
+  });
+
   return (
     <div className="flex flex-col">
       <div className="ml-[49px]">

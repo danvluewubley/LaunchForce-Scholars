@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useEffect } from "react";
 
 export const ProgramCompass = () => {
+  useEffect(() => {
+    document.title = "Program Compass";
+  });
+
   return (
     <div>
       <header className="h-[256px] bg-purple flex flex-col justify-center">
@@ -12,4 +16,4 @@ export const ProgramCompass = () => {
       </header>
     </div>
   );
-}
+};
