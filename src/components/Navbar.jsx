@@ -62,10 +62,11 @@ export const Navbar = () => {
         </button>
 
         <ul
-          className={`md:flex gap-6 text-[18px] font-anonymous text-white absolute md:static top-[80px] left-0 w-full bg-black md:bg-transparent md:w-auto md:flex-row md:items-center 
-    ${menuOpen ? "flex flex-col" : "hidden"} 
-    max-[1193px]:text-base max-[1193px]:gap-4 `}
+          className={`md:flex gap-6 text-[18px] font-anonymous text-white absolute md:static top-[80px] left-0 w-full bg-black md:bg-transparent md:w-auto md:flex-row md:items-center ${
+            menuOpen ? "flex flex-col" : "hidden"
+          } max-[1193px]:text-base max-[1193px]:gap-4`}
         >
+          {/* Resources Dropdown */}
           <li className="relative w-full md:w-auto">
             <Link
               to="/resources"
@@ -79,9 +80,6 @@ export const Navbar = () => {
               onMouseEnter={() =>
                 window.innerWidth >= 768 && setIsResourceDropdownOpen(true)
               }
-              onMouseLeave={() =>
-                window.innerWidth >= 768 && setIsResourceDropdownOpen(false)
-              }
             >
               RESOURCES
               <span className="md:hidden">
@@ -89,10 +87,13 @@ export const Navbar = () => {
               </span>
             </Link>
 
+            {/* Dropdown Content */}
             <div
               className={`md:absolute md:left-0 md:mt-1 md:w-56 bg-black border border-gray-700 text-white shadow-lg rounded-lg transition-all duration-200 w-full ${
                 isResourceDropdownOpen ? "block" : "hidden"
               }`}
+              onMouseEnter={() => setIsResourceDropdownOpen(true)}
+              onMouseLeave={() => setIsResourceDropdownOpen(false)}
             >
               <ul className="md:p-2">
                 <li className="px-4 py-2 hover:bg-gray-800">
@@ -111,6 +112,7 @@ export const Navbar = () => {
             </div>
           </li>
 
+          {/* Other Navbar Links */}
           <li>
             <Link
               to="/community"
@@ -128,17 +130,22 @@ export const Navbar = () => {
             </Link>
           </li>
 
+          {/* Account Dropdown (Logged In User) */}
           {user ? (
             <li className="relative w-full md:w-auto mb-6 md:mb-0">
               <button
                 className="py-2 px-4 w-full text-left md:w-auto md:text-center hover:text-purple flex justify-between items-center"
-                onClick={() => setIsAccountDropdownOpen(!isAccountDropdownOpen)}
+                onClick={() => {
+                  if (window.innerWidth < 768) {
+                    setIsAccountDropdownOpen(!isAccountDropdownOpen); // Toggle on mobile
+                  }
+                }}
                 onMouseEnter={() =>
                   window.innerWidth >= 768 && setIsAccountDropdownOpen(true)
-                }
+                } // Open dropdown on hover (desktop)
                 onMouseLeave={() =>
                   window.innerWidth >= 768 && setIsAccountDropdownOpen(false)
-                }
+                } // Close dropdown on mouse leave (desktop)
               >
                 MY ACCOUNT
                 <span className="md:hidden">
@@ -146,10 +153,13 @@ export const Navbar = () => {
                 </span>
               </button>
 
+              {/* Dropdown Content */}
               <div
-                className={`md:absolute md:left-0 md:mt-1 md:w-56 bg-black border border-gray-700 text-white shadow-lg rounded-lg transition-all duration-200 md:${
+                className={`md:absolute md:left-0 top-full md:w-56 bg-black border border-gray-700 text-white shadow-lg rounded-lg transition-all duration-200 ${
                   isAccountDropdownOpen ? "block" : "hidden"
-                } ${isAccountDropdownOpen ? "block" : "hidden"}`}
+                }`}
+                onMouseEnter={() => setIsAccountDropdownOpen(true)} // Keep open when hovering the dropdown
+                onMouseLeave={() => setIsAccountDropdownOpen(false)} // Close when mouse leaves the dropdown
               >
                 <ul className="md:p-2">
                   <li className="px-4 py-2 hover:bg-gray-800">
