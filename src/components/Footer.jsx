@@ -2,13 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export const Footer = () => {
-   const scrollToTop = () => {
-     window.scrollTo(0, 0);
-   };
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
 
   return (
     <div className="w-full bg-gray h-auto text-white flex flex-col md:flex-row py-[40px] px-4 md:px-[100px]">
-      {/* Contact Us Section */}
       <div className="w-full md:w-1/3 h-full flex flex-col text-purple mb-6 md:mb-0">
         <h2 className="font-anton text-[24px] sm:text-[30px] md:text-[40px]">
           Contact Us
@@ -28,7 +27,6 @@ export const Footer = () => {
         </div>
       </div>
 
-      {/* Pages Section */}
       <div className="w-full md:w-1/3 h-full flex flex-col text-purple mb-6 md:mb-0">
         <h2 className="font-anton text-[24px] sm:text-[30px] md:text-[40px]">
           Pages
@@ -73,8 +71,14 @@ export const Footer = () => {
           Relevant Links
         </h2>
         <div className="font-anonymous text-[16px] sm:text-[18px] md:text-[20px]">
-          <p>Sign Up to Our Email List</p>
-          <p>Match & Revise Service</p>
+          <p>
+            <Link to="/email-list" onClick={scrollToTop}>
+              Sign Up to Our Email List
+            </Link>
+          </p>
+          <p>
+            <Link to="/match-revise" onClick={scrollToTop}>Match & Revise Service</Link>
+          </p>
         </div>
       </div>
     </div>
