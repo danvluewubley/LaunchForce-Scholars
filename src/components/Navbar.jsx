@@ -49,7 +49,7 @@ export const Navbar = () => {
       <nav className="w-full md:max-w-[90%] mx-auto flex justify-between items-center h-[80px] px-6">
         <Link
           to="/"
-          className="font-anton text-purple text-[30px] whitespace-nowrap"
+          className="font-anton text-purple text-[30px] whitespace-nowrap max-[1193px]:text-[20px]"
         >
           LaunchForce Scholars
         </Link>
@@ -62,9 +62,9 @@ export const Navbar = () => {
         </button>
 
         <ul
-          className={`md:flex gap-6 text-[18px] font-anonymous text-white absolute md:static top-[80px] left-0 w-full bg-black md:bg-transparent md:w-auto md:flex-row md:items-center ${
+          className={`md:flex gap-6 text-lg font-anonymous text-white absolute md:static top-[80px] left-0 w-full bg-black md:bg-transparent md:w-auto md:flex-row md:items-center ${
             menuOpen ? "flex flex-col" : "hidden"
-          } max-[1193px]:text-base max-[1193px]:gap-4`}
+          } max-[1193px]:text-sm max-[1193px]:gap-4`}
         >
           {/* Resources Dropdown */}
           <li className="relative w-full md:w-auto">
@@ -182,18 +182,18 @@ export const Navbar = () => {
             <>
               <li>
                 <button
-                  onClick={handleLoginClick}
-                  className="py-2 px-4 hover:text-purple"
-                >
-                  LOGIN
-                </button>
-              </li>
-              <li>
-                <button
                   onClick={handleSignUpClick}
                   className="py-2 px-4 hover:text-purple"
                 >
                   SIGN UP
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={handleLoginClick}
+                  className="py-2 px-4 hover:text-purple"
+                >
+                  LOG IN
                 </button>
               </li>
             </>
