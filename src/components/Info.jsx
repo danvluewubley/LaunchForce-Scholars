@@ -6,7 +6,7 @@ export const Info = () => {
       <p className="pt-[40px] font-anton text-purple text-[32px] sm:text-[40px]">
         What We Do
       </p>
-      <hr className="w-[90%] mx-auto my-4" />
+      <hr className="w-full mx-auto my-4" />
 
       {/* Program Compass Section */}
       <div>
@@ -37,7 +37,7 @@ export const Info = () => {
           Admissions Insider
         </h2>
         <p className="font-anonymous text-[16px] sm:text-[24px] md:text-[40px] pb-[50px]">
-          Our newspaper written by students for students. Find advice for
+          Our newsletter written by students for students. Find advice for
           writing applications, essay references, tips for nailing interviews,
           and everything else extracurricular related.
         </p>

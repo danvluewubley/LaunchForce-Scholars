@@ -24,8 +24,8 @@ export const Resources = () => {
 
       <Section
         title="Admissions Insider"
-        description="Our newspaper of real stories from students who navigated summer programs, have advice for writing supplemental essays, an inside look of successful applications tips for nailing interns, and everything else interview-related."
-        buttonText="OPEN THE NEWSPAPER"
+        description="Our newsletter of real stories from students who navigated summer programs, have advice for writing supplemental essays, an inside look of successful applications tips for nailing interns, and everything else interview-related."
+        buttonText="OPEN THE NEWSLETTER"
         link="/admissions-insider"
       />
 

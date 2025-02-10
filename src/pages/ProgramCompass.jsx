@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Database } from "../components/Database";
 
 export const ProgramCompass = () => {
   useEffect(() => {
@@ -14,6 +15,7 @@ export const ProgramCompass = () => {
           passions and goals.
         </p>
       </header>
+      <Database />
     </div>
   );
 };
