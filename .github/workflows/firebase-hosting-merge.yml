@@ -1,4 +1,3 @@
-# Deploy to Firebase Hosting on merge
 on:
   push:
     branches:
@@ -10,12 +9,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # 🔥 Clean old build files (prevents caching issues)
+      - name: Clean old build files
+        run: rm -rf node_modules/ dist/ build/
+
+      # ✅ Install project dependencies
       - name: Install dependencies
-        run: npm install  # ✅ Install project dependencies
+        run: npm install  
 
+      # ✅ Build project (Ensure output matches `firebase.json`)
       - name: Build project
-        run: npm run build  # ✅ Generate the `dist/` folder (required for Firebase)
+        run: npm run build
 
+      # ✅ Ensure the `dist/` folder exists (debugging)
+      - name: Check build output
+        run: ls -la dist || ls -la build
+
+      # ✅ Deploy to Firebase Hosting with Debugging
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -23,3 +33,5 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LAUNCHFORCE_SCHOLARS }}
           channelId: live
           projectId: launchforce-scholars
+        env:
+          DEBUG: "true"
