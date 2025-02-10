@@ -11,14 +11,14 @@ export const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [user, setUser] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setIsAccountDropdownOpen(false)
-      navigate('/')
+      setIsAccountDropdownOpen(false);
     });
 
     return () => unsubscribe();
@@ -38,40 +38,68 @@ export const Navbar = () => {
     try {
       await signOut(auth);
       console.log("User logged out");
+      navigate("/");
     } catch (err) {
       console.error("Error logging out:", err);
     }
   };
 
   return (
-    <div className="w-full bg-black">
-      <nav className="max-w-[90%] mx-auto flex justify-between items-center h-[120px] px-6">
+    <div className="min-w-screen bg-black">
+      <nav className="w-full md:max-w-[90%] mx-auto flex justify-between items-center h-[80px] px-6">
+        {/* Logo */}
         <Link
           to="/"
-          className="font-anton text-purple text-[45px] whitespace-nowrap"
+          className="font-anton text-purple text-[30px] whitespace-nowrap"
         >
           LaunchForce Scholars
         </Link>
 
-        <ul className="flex gap-8 text-[20px] font-anonymous text-white relative">
-          <li
-            className="relative link"
-            onMouseEnter={() => setIsResourceDropdownOpen(true)}
-            onMouseLeave={() => setIsResourceDropdownOpen(false)}
-          >
-            <span className="inline-block pb-2">
-              <Link to="/resources">RESOURCES</Link>
-            </span>
-            <div
-              className={`absolute left-0 top-full w-56 bg-black border border-gray-700 text-white shadow-lg rounded-lg transition-opacity duration-200 ${
-                isResourceDropdownOpen
-                  ? "opacity-100 visible"
-                  : "opacity-0 invisible"
-              }`}
-              onMouseEnter={() => setIsResourceDropdownOpen(true)}
-              onMouseLeave={() => setIsResourceDropdownOpen(false)}
+        {/* Mobile Menu Button */}
+        <button
+          className="text-white text-3xl md:hidden focus:outline-none"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          ☰
+        </button>
+
+        {/* Navbar Menu */}
+        <ul
+          className={`md:flex gap-6 text-[18px] font-anonymous text-white absolute md:static top-[80px] left-0 w-full bg-black md:bg-transparent md:w-auto md:flex-row md:items-center 
+    ${menuOpen ? "flex flex-col" : "hidden"} 
+    max-[1193px]:text-base max-[1193px]:gap-4 `}
+        >
+          <li className="relative w-full md:w-auto">
+            {/* Link for Desktop + Button for Mobile */}
+            <Link
+              to="/resources"
+              className="py-2 px-4 w-full text-left md:w-auto md:text-center hover:text-purple flex justify-between items-center"
+              onClick={(e) => {
+                if (window.innerWidth < 768) {
+                  e.preventDefault(); // Prevent navigation on mobile
+                  setIsResourceDropdownOpen(!isResourceDropdownOpen);
+                }
+              }}
+              onMouseEnter={() =>
+                window.innerWidth >= 768 && setIsResourceDropdownOpen(true)
+              }
+              onMouseLeave={() =>
+                window.innerWidth >= 768 && setIsResourceDropdownOpen(false)
+              }
             >
-              <ul>
+              RESOURCES
+              <span className="md:hidden">
+                {isResourceDropdownOpen ? "▲" : "▼"}
+              </span>
+            </Link>
+
+            {/* Dropdown Content */}
+            <div
+              className={`md:absolute md:left-0 md:mt-1 md:w-56 bg-black border border-gray-700 text-white shadow-lg rounded-lg transition-all duration-200 w-full ${
+                isResourceDropdownOpen ? "block" : "hidden"
+              }`}
+            >
+              <ul className="md:p-2">
                 <li className="px-4 py-2 hover:bg-gray-800">
                   <Link to="/program-compass">Program Compass</Link>
                 </li>
@@ -89,66 +117,76 @@ export const Navbar = () => {
           </li>
 
           <li>
-            <Link to="/community" className="link">
+            <Link
+              to="/community"
+              className="py-2 px-4 w-full text-left md:w-auto md:text-center hover:text-purple flex justify-between items-center"
+            >
               JOIN OUR COMMUNITY
             </Link>
           </li>
           <li>
-            <Link to="/apply" className="link">
+            <Link
+              to="/apply"
+              className="py-2 px-4 w-full text-left md:w-auto md:text-center hover:text-purple flex justify-between items-center"
+            >
               APPLY TO OUR TEAM
             </Link>
           </li>
 
-          <li>
-            {user ? (
-              <>
-                <li
-                  className="relative link"
-                  onMouseEnter={() => setIsAccountDropdownOpen(true)}
-                  onMouseLeave={() => setIsAccountDropdownOpen(false)}
-                >
-                  <span className="inline-block pb-2">
-                    <Link to="/profile">MY ACCOUNT</Link>
-                  </span>
-                  <div
-                    className={`absolute left-0 top-full w-56 bg-black border border-gray-700 text-white shadow-lg rounded-lg transition-opacity duration-200 ${
-                      isAccountDropdownOpen
-                        ? "opacity-100 visible"
-                        : "opacity-0 invisible"
-                    }`}
-                    onMouseEnter={() => setIsAccountDropdownOpen(true)}
-                    onMouseLeave={() => setIsAccountDropdownOpen(false)}
-                  >
-                    <ul>
-                      <li className="px-4 py-2 hover:bg-gray-800 text-wrap">
-                        <Link to="/saved">Saved Programs</Link>
-                      </li>
-                      <li className="px-4 py-2 hover:bg-gray-800">
-                        <Link onClick={handleLogout}>Log out</Link>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              </>
-            ) : (
+          {/* MY ACCOUNT (Dropdown) */}
+          {user ? (
+            <li className="relative w-full md:w-auto mb-6 md:mb-0">
               <button
-                onClick={handleLoginClick}
-                className="link cursor-pointer"
+                className="py-2 px-4 w-full text-left md:w-auto md:text-center hover:text-purple flex justify-between items-center"
+                onClick={() => setIsAccountDropdownOpen(!isAccountDropdownOpen)}
+                onMouseEnter={() =>
+                  window.innerWidth >= 768 && setIsAccountDropdownOpen(true)
+                }
+                onMouseLeave={() =>
+                  window.innerWidth >= 768 && setIsAccountDropdownOpen(false)
+                }
               >
-                LOGIN
+                MY ACCOUNT
+                <span className="md:hidden">
+                  {isAccountDropdownOpen ? "▲" : "▼"}
+                </span>
               </button>
-            )}
-          </li>
 
-          {!user && (
-            <li>
-              <button
-                onClick={handleSignUpClick}
-                className="link cursor-pointer"
+              {/* Dropdown Content */}
+              <div
+                className={`md:absolute md:left-0 md:mt-1 md:w-56 bg-black border border-gray-700 text-white shadow-lg rounded-lg transition-all duration-200 md:${
+                  isAccountDropdownOpen ? "block" : "hidden"
+                } ${isAccountDropdownOpen ? "block" : "hidden"}`}
               >
-                SIGN UP
-              </button>
+                <ul className="md:p-2">
+                  <li className="px-4 py-2 hover:bg-gray-800">
+                    <Link to="/saved">Saved Programs</Link>
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-800">
+                    <button onClick={handleLogout}>Log out</button>
+                  </li>
+                </ul>
+              </div>
             </li>
+          ) : (
+            <>
+              <li>
+                <button
+                  onClick={handleLoginClick}
+                  className="py-2 px-4 hover:text-purple"
+                >
+                  LOGIN
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={handleSignUpClick}
+                  className="py-2 px-4 hover:text-purple"
+                >
+                  SIGN UP
+                </button>
+              </li>
+            </>
           )}
         </ul>
       </nav>
