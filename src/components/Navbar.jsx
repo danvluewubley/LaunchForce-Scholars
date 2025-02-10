@@ -47,7 +47,6 @@ export const Navbar = () => {
   return (
     <div className="min-w-screen bg-black">
       <nav className="w-full md:max-w-[90%] mx-auto flex justify-between items-center h-[80px] px-6">
-        {/* Logo */}
         <Link
           to="/"
           className="font-anton text-purple text-[30px] whitespace-nowrap"
@@ -55,7 +54,6 @@ export const Navbar = () => {
           LaunchForce Scholars
         </Link>
 
-        {/* Mobile Menu Button */}
         <button
           className="text-white text-3xl md:hidden focus:outline-none"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -63,20 +61,18 @@ export const Navbar = () => {
           ☰
         </button>
 
-        {/* Navbar Menu */}
         <ul
           className={`md:flex gap-6 text-[18px] font-anonymous text-white absolute md:static top-[80px] left-0 w-full bg-black md:bg-transparent md:w-auto md:flex-row md:items-center 
     ${menuOpen ? "flex flex-col" : "hidden"} 
     max-[1193px]:text-base max-[1193px]:gap-4 `}
         >
           <li className="relative w-full md:w-auto">
-            {/* Link for Desktop + Button for Mobile */}
             <Link
               to="/resources"
               className="py-2 px-4 w-full text-left md:w-auto md:text-center hover:text-purple flex justify-between items-center"
               onClick={(e) => {
                 if (window.innerWidth < 768) {
-                  e.preventDefault(); // Prevent navigation on mobile
+                  e.preventDefault();
                   setIsResourceDropdownOpen(!isResourceDropdownOpen);
                 }
               }}
@@ -93,7 +89,6 @@ export const Navbar = () => {
               </span>
             </Link>
 
-            {/* Dropdown Content */}
             <div
               className={`md:absolute md:left-0 md:mt-1 md:w-56 bg-black border border-gray-700 text-white shadow-lg rounded-lg transition-all duration-200 w-full ${
                 isResourceDropdownOpen ? "block" : "hidden"
@@ -133,7 +128,6 @@ export const Navbar = () => {
             </Link>
           </li>
 
-          {/* MY ACCOUNT (Dropdown) */}
           {user ? (
             <li className="relative w-full md:w-auto mb-6 md:mb-0">
               <button
@@ -152,7 +146,6 @@ export const Navbar = () => {
                 </span>
               </button>
 
-              {/* Dropdown Content */}
               <div
                 className={`md:absolute md:left-0 md:mt-1 md:w-56 bg-black border border-gray-700 text-white shadow-lg rounded-lg transition-all duration-200 md:${
                   isAccountDropdownOpen ? "block" : "hidden"
