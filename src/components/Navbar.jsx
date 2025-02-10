@@ -80,6 +80,9 @@ export const Navbar = () => {
               onMouseEnter={() =>
                 window.innerWidth >= 768 && setIsResourceDropdownOpen(true)
               }
+              onMouseLeave={() =>
+                window.innerWidth >= 768 && setIsResourceDropdownOpen(false)
+              }
             >
               RESOURCES
               <span className="md:hidden">
@@ -89,11 +92,15 @@ export const Navbar = () => {
 
             {/* Dropdown Content */}
             <div
-              className={`md:absolute md:left-0 md:mt-1 md:w-56 bg-black border border-gray-700 text-white shadow-lg rounded-lg transition-all duration-200 w-full ${
+              className={`md:absolute md:left-0 md:w-56 bg-black border border-gray-700 text-white shadow-lg rounded-lg transition-all duration-200 w-full ${
                 isResourceDropdownOpen ? "block" : "hidden"
               }`}
-              onMouseEnter={() => setIsResourceDropdownOpen(true)}
-              onMouseLeave={() => setIsResourceDropdownOpen(false)}
+              onMouseEnter={() =>
+                window.innerWidth >= 768 && setIsResourceDropdownOpen(true)
+              } // Open dropdown on hover (desktop)
+              onMouseLeave={() =>
+                window.innerWidth >= 768 && setIsResourceDropdownOpen(false)
+              } // Close dropdown on mouse leave (desktop)
             >
               <ul className="md:p-2">
                 <li className="px-4 py-2 hover:bg-gray-800">
