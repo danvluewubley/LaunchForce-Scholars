@@ -19,3 +19,15 @@
 .font-antonio {
   font-family: "Antonio", sans-serif;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+body {
+  -ms-overflow-style: none;
+}

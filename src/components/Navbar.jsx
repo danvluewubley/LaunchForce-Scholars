@@ -6,7 +6,8 @@ import "../styles/underline.css";
 import { LoginModal } from "./LoginModal";
 
 export const Navbar = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isResourceDropdownOpen, setIsResourceDropdownOpen] = useState(false);
+  const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [user, setUser] = useState(null);
@@ -40,7 +41,7 @@ export const Navbar = () => {
 
   return (
     <div className="w-full bg-black">
-      <nav className="max-w-screen mx-auto flex justify-between items-center h-[120px] px-6">
+      <nav className="max-w-[90%] mx-auto flex justify-between items-center h-[120px] px-6">
         <Link
           to="/"
           className="font-anton text-purple text-[45px] whitespace-nowrap"
@@ -51,18 +52,20 @@ export const Navbar = () => {
         <ul className="flex gap-8 text-[20px] font-anonymous text-white relative">
           <li
             className="relative link"
-            onMouseEnter={() => setIsDropdownOpen(true)}
-            onMouseLeave={() => setIsDropdownOpen(false)}
+            onMouseEnter={() => setIsResourceDropdownOpen(true)}
+            onMouseLeave={() => setIsResourceDropdownOpen(false)}
           >
             <span className="inline-block pb-2">
               <Link to="/resources">RESOURCES</Link>
             </span>
             <div
               className={`absolute left-0 top-full w-56 bg-black border border-gray-700 text-white shadow-lg rounded-lg transition-opacity duration-200 ${
-                isDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                isResourceDropdownOpen
+                  ? "opacity-100 visible"
+                  : "opacity-0 invisible"
               }`}
-              onMouseEnter={() => setIsDropdownOpen(true)}
-              onMouseLeave={() => setIsDropdownOpen(false)}
+              onMouseEnter={() => setIsResourceDropdownOpen(true)}
+              onMouseLeave={() => setIsResourceDropdownOpen(false)}
             >
               <ul>
                 <li className="px-4 py-2 hover:bg-gray-800">
@@ -94,9 +97,35 @@ export const Navbar = () => {
 
           <li>
             {user ? (
-              <button onClick={handleLogout} className="link cursor-pointer">
-                LOG OUT
-              </button>
+              <>
+                <li
+                  className="relative link"
+                  onMouseEnter={() => setIsAccountDropdownOpen(true)}
+                  onMouseLeave={() => setIsAccountDropdownOpen(false)}
+                >
+                  <span className="inline-block pb-2">
+                    <Link to="/profile">MY ACCOUNT</Link>
+                  </span>
+                  <div
+                    className={`absolute left-0 top-full w-56 bg-black border border-gray-700 text-white shadow-lg rounded-lg transition-opacity duration-200 ${
+                      isAccountDropdownOpen
+                        ? "opacity-100 visible"
+                        : "opacity-0 invisible"
+                    }`}
+                    onMouseEnter={() => setIsAccountDropdownOpen(true)}
+                    onMouseLeave={() => setIsAccountDropdownOpen(false)}
+                  >
+                    <ul>
+                      <li className="px-4 py-2 hover:bg-gray-800 text-wrap">
+                        <Link to="/saved">Saved Programs</Link>
+                      </li>
+                      <li className="px-4 py-2 hover:bg-gray-800">
+                        <Link onClick={handleLogout}>Log out</Link>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </>
             ) : (
               <button
                 onClick={handleLoginClick}
