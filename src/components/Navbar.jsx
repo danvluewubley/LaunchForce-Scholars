@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../configs/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import "../styles/underline.css";
@@ -12,9 +12,13 @@ export const Navbar = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [user, setUser] = useState(null);
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setIsAccountDropdownOpen(false)
+      navigate('/')
     });
 
     return () => unsubscribe();
