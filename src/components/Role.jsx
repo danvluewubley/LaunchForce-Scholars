@@ -2,9 +2,11 @@ import React from "react";
 
 export const Role = ({ title, description, hours, experience, buttonText }) => {
   return (
-    <div className="ml-[49px]">
-      <h2 className="font-antonio font-bold text-[40px] py-4">{title}</h2>
-      <p className="font-anonymous font-bold text-2xl w-[60%] pb-8">
+    <div className="mx-[49px]">
+      <h2 className="font-antonio font-bold text-[30px] md:text-[36px] lg:text-[40px] py-4">
+        {title}
+      </h2>
+      <p className="font-anonymous font-bold text-2xl pb-8">
         <span className="font-bold">ROLE DESCRIPTION:</span> {description}
         <br />
         <br />

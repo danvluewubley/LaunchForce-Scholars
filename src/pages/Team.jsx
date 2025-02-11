@@ -8,16 +8,20 @@ export const Team = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="ml-[49px]">
-        <h2 className="font-anton text-[100px] mt-[62px]">Join Our Team</h2>
-        <p className="font-anonymous text-2xl w-1/3 mt-10 mb-[40px]">
+      <div className="mx-[49px]">
+        <h2 className="font-anton text-4xl sm:text-5xl md:text-6xl lg:text-7xl mt-[62px]">
+          Join Our Team
+        </h2>
+        <p className="font-anonymous text-2xl md:text-3xl mt-10 mb-[40px]">
           Interested in working with us? Job listings will open and be reviewed
           on a rolling basis.
         </p>
       </div>
 
-      <h2 className="font-anton text-purple text-[40px] ml-[49px]">Roles</h2>
-      <hr className="w-[94%] self-center" />
+      <h2 className="font-anton text-purple text-[30px] md:text-[36px] lg:text-[40px] ml-[49px]">
+        Roles
+      </h2>
+      <hr className="w-[75%] md:w-[87%] lg:w-[94%] self-center" />
 
       <section className="flex flex-col">
         {/* Pass data to the Role component */}
@@ -28,7 +32,7 @@ export const Team = () => {
           experience="None, will receive training."
           buttonText="APPLY HERE"
         />
-        <hr className="w-[94%] self-center" />
+        <hr className="w-[75%] md:w-[87%] lg:w-[94%] self-center" />
 
         <Role
           title="Mentors"
@@ -37,7 +41,7 @@ export const Team = () => {
           experience="Must have prior experience in applying and accepted to programs. Understanding of the college admissions process and having passion in your extracurricular activities preferred. Will receive further training."
           buttonText="APPLY HERE"
         />
-        <hr className="w-[94%] self-center" />
+        <hr className="w-[75%] md:w-[87%] lg:w-[94%] self-center" />
 
         <Role
           title="Outreach Managers"
@@ -46,7 +50,7 @@ export const Team = () => {
           experience="Communication & organization skills needed. Graphic Design skills preferred."
           buttonText="APPLY HERE"
         />
-        <hr className="w-[94%] self-center" />
+        <hr className="w-[75%] md:w-[87%] lg:w-[94%] self-center" />
 
         <Role
           title="Writers"
