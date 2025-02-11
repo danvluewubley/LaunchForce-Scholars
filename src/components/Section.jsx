@@ -5,13 +5,13 @@ export const Section = ({ title, description, buttonText, link }) => {
   const navigate = useNavigate();
 
   return (
-    <section className="pl-[49px] pb-[60px]">
-      <h2 className="font-anton text-[80px]">{title}</h2>
-      <p className="font-anonymous text-2xl w-1/2 pt-8 pb-12 font-bold">
+    <section className="px-[49px] pb-[60px]">
+      <h2 className="font-anton text-4xl md:text-6xl lg:text-[80px]">{title}</h2>
+      <p className="font-anonymous text-2xl pt-8 pb-12 font-bold">
         {description}
       </p>
       <button
-        className="bg-purple font-anton text-[40px] px-8 py-3 cursor-pointer"
+        className="bg-purple font-anton text-2xl md:text-4xl px-8 py-3 cursor-pointer"
         onClick={() => navigate(link)}
       >
         {buttonText}

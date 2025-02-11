@@ -19,7 +19,6 @@ export const ProgramCard = ({
   const [isFavorited, setIsFavorited] = useState(isFavoritedInitially);
 
   const toggleCard = (e) => {
-    // Only toggle the card if the heart button or website link wasn't clicked
     if (
       e.target.closest(".favorite-btn") === null &&
       e.target.closest(".website-link") === null
@@ -29,7 +28,6 @@ export const ProgramCard = ({
   };
 
   const toggleFavorite = (e) => {
-    // Prevent propagation of the click event to the card itself
     e.stopPropagation();
     setIsFavorited(!isFavorited);
   };
@@ -37,7 +35,7 @@ export const ProgramCard = ({
   return (
     <div
       onClick={toggleCard}
-      className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md border border-gray-200 cursor-pointer"
+      className="bg-white shadow-lg rounded-lg p-6 w-full max-w-xs lg:max-w-md border border-gray-200 cursor-pointer"
     >
       {/* Header Section (Link, Heart, Tags) */}
       <div className="flex justify-between items-center">
