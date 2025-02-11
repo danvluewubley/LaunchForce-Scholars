@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 export const ProgramCard = ({
   name,
-  tags,
+  skills,
   description,
   deadline,
   location,
@@ -13,6 +13,7 @@ export const ProgramCard = ({
   type,
   grade,
   age,
+  areaOfInterest
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isFavorited, setIsFavorited] = useState(isFavoritedInitially);
@@ -67,12 +68,12 @@ export const ProgramCard = ({
         {/* Favorite Button (Heart Icon) */}
         <button
           onClick={toggleFavorite} // Update favorite state
-          className="favorite-btn text-gray-400 hover:text-red-500"
+          className="favorite-btn text-gray-400 hover:text-[#A780C0]"
         >
           {isFavorited ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-red-500"
+              className="h-6 w-6 text-[#A780C0]"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -101,13 +102,18 @@ export const ProgramCard = ({
 
       {/* Tags Section */}
       <div className="flex flex-wrap gap-2 mt-2">
-        {tags &&
-          tags.map((tag, index) => (
+        {areaOfInterest && (
+          <span className="bg-yellow-100 text-yellow-600 text-xs font-medium px-2 py-1 rounded">
+            {areaOfInterest}
+          </span>
+        )}
+        {skills &&
+          skills.map((skill, index) => (
             <span
               key={index}
               className="bg-blue-100 text-blue-600 text-xs font-medium px-2 py-1 rounded"
             >
-              {tag}
+              {skill}
             </span>
           ))}
         {/* Season Tag */}
@@ -155,13 +161,13 @@ export const ProgramCard = ({
             {grade && (
               <div>
                 <span className="font-medium">Grade: </span>
-                {grade}
+                {grade[0]} - {grade[grade.length - 1]} {/* Show age range */}
               </div>
             )}
             {age && (
               <div>
                 <span className="font-medium">Age: </span>
-                {age}
+                {age[0]} - {age[age.length - 1]} {/* Show age range */}
               </div>
             )}
           </div>

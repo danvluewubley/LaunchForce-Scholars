@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ProgramCard } from "./ProgramCard";
 import { FilterPanel } from "./FilterPanel";
+import { getDocs, collection } from "firebase/firestore";
+import { db } from "../configs/firebase";
 
 export const Database = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -9,93 +11,94 @@ export const Database = () => {
     cost: [],
     location: [],
     type: [],
-    areaOfInterest: [],
-    skills: [],
+    areaOfInterest: [], // Ensure this is an array
+    skills: [], // Ensure this is an array
     age: [],
     grade: [],
   });
 
+  const [opportunitiesList, setOpportunitiesList] = useState([]);
   const [isFilterVisible, setIsFilterVisible] = useState(true);
 
-  // Sample data for the programs
-  const programs = [
-    {
-      name: "AI Research Internship",
-      tags: ["Technology", "AI", "Machine Learning", "Python"],
-      description:
-        "A summer research internship focused on AI applications and data science.",
-      deadline: "March 15, 2025",
-      location: "Virtual",
-      website: "https://official-website.com",
-      season: "Summer", // Added season
-      cost: "Low Cost", // Added cost
-      type: "Internship", // Added type
-      areaOfInterest: "STEM", // Added area of interest
-      skills: ["Communication", "Machine Learning"], // Added skills
-      grade: "Sophomore", // Added grade
-      age: "18-22", // Added age
-    },
-    {
-      name: "Data Science Internship",
-      tags: ["Data Science", "Machine Learning", "Python", "Statistics"],
-      description:
-        "A hands-on internship program designed for students interested in data science.",
-      deadline: "May 1, 2025",
-      location: "New York, NY",
-      website: "https://another-website.com",
-      season: "Fall", // Added season
-      cost: "Paid/Stipend", // Added cost
-      type: "Internship", // Added type
-      areaOfInterest: "STEM Research", // Added area of interest
-      skills: ["Data Science", "Python", "Statistics"], // Added skills
-      grade: "Junior", // Added grade
-      age: "19-23", // Added age
-    },
-    // Add more programs as needed
-  ];
+  const opportunitiesRef = collection(db, "opportunities");
 
-  // Filter logic based on search query and filters
-  const filteredPrograms = programs.filter((program) => {
-    const lowerCaseQuery = searchQuery.toLowerCase();
-    const matchesSearch =
-      program.name.toLowerCase().includes(lowerCaseQuery) ||
-      program.description.toLowerCase().includes(lowerCaseQuery) ||
-      program.tags.some((tag) => tag.toLowerCase().includes(lowerCaseQuery));
+  // Fetch opportunities from Firebase and filter them based on the search query and filters
+  const getOpportunitiesList = async () => {
+    try {
+      const data = await getDocs(opportunitiesRef);
+      const fetchedData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
 
-    const matchesSeason =
-      filters.season.length === 0 || filters.season.includes(program.season);
-    const matchesCost =
-      filters.cost.length === 0 || filters.cost.includes(program.cost);
-    const matchesLocation =
-      filters.location.length === 0 ||
-      filters.location.includes(program.location);
-    const matchesType =
-      filters.type.length === 0 || filters.type.includes(program.type);
-    const matchesAreaOfInterest =
-      filters.areaOfInterest.length === 0 ||
-      filters.areaOfInterest.includes(program.areaOfInterest);
-    const matchesSkills =
-      filters.skills.length === 0 ||
-      filters.skills.some((skill) =>
-        program.skills.map((s) => s.toLowerCase()).includes(skill.toLowerCase())
-      );
-    const matchesAge =
-      filters.age.length === 0 || filters.age.includes(program.age);
-    const matchesGrade =
-      filters.grade.length === 0 || filters.grade.includes(program.grade);
+      // Apply filtering logic after fetching the data
+      const lowerCaseQuery = searchQuery.toLowerCase();
 
-    return (
-      matchesSearch &&
-      matchesSeason &&
-      matchesCost &&
-      matchesLocation &&
-      matchesType &&
-      matchesAreaOfInterest &&
-      matchesSkills &&
-      matchesAge &&
-      matchesGrade
-    );
-  });
+      const filteredPrograms = fetchedData.filter((program) => {
+        const matchesSearch =
+          program.name.toLowerCase().includes(lowerCaseQuery) ||
+          program.description.toLowerCase().includes(lowerCaseQuery) ||
+          program.tags.some((tag) =>
+            tag.toLowerCase().includes(lowerCaseQuery)
+          );
+
+        const matchesSeason =
+          filters.season.length === 0 ||
+          filters.season.includes(program.season);
+        const matchesCost =
+          filters.cost.length === 0 || filters.cost.includes(program.cost);
+        const matchesLocation =
+          filters.location.length === 0 ||
+          filters.location.includes(program.location);
+        const matchesType =
+          filters.type.length === 0 || filters.type.includes(program.type);
+        const matchesAreaOfInterest =
+          filters.areaOfInterest.length === 0 ||
+          filters.areaOfInterest.some((areaOfInterest) =>
+            program.areaOfInterest.includes(areaOfInterest)
+          );
+        const matchesSkills =
+          filters.skills.length === 0 ||
+          filters.skills.some((filterSkill) =>
+            program.skills.some(
+              (programSkill) =>
+                programSkill.toLowerCase() === filterSkill.toLowerCase()
+            )
+          );
+
+
+        // Handle Age filter (age is an array)
+        const matchesAge =
+          filters.age.length === 0 ||
+          filters.age.some((age) => program.age.includes(age));
+
+        // Handle Grade filter (grade is an array)
+        const matchesGrade =
+          filters.grade.length === 0 ||
+          filters.grade.some((grade) => program.grade.includes(grade));
+
+        return (
+          matchesSearch &&
+          matchesSeason &&
+          matchesCost &&
+          matchesLocation &&
+          matchesType &&
+          matchesAreaOfInterest &&
+          matchesSkills &&
+          matchesAge &&
+          matchesGrade
+        );
+      });
+
+      setOpportunitiesList(filteredPrograms); // Set the filtered list to state
+    } catch (err) {
+      console.error("Error fetching opportunities list:", err);
+    }
+  };
+
+  useEffect(() => {
+    getOpportunitiesList();
+  }, [filters, searchQuery]); // Fetch data when filters or search query changes
 
   return (
     <div className="min-h-screen flex">
@@ -118,9 +121,11 @@ export const Database = () => {
         {/* Display the filtered program cards */}
         <div className="w-256 mt-6 flex justify-between">
           <div>
-            {filteredPrograms.length > 0 ? (
-              filteredPrograms.map((program, index) => (
-                <ProgramCard key={index} {...program} />
+            {opportunitiesList.length > 0 ? (
+              opportunitiesList.map((program, index) => (
+                <div key={index}>
+                  <ProgramCard {...program} />
+                </div>
               ))
             ) : (
               <p>No programs found</p>
@@ -136,3 +141,4 @@ export const Database = () => {
     </div>
   );
 };
+
