@@ -8,6 +8,11 @@ export const ProgramCard = ({
   location,
   website,
   isFavoritedInitially,
+  season,
+  cost,
+  type,
+  grade,
+  age,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isFavorited, setIsFavorited] = useState(isFavoritedInitially);
@@ -105,6 +110,18 @@ export const ProgramCard = ({
               {tag}
             </span>
           ))}
+        {/* Season Tag */}
+        {season && (
+          <span className="bg-yellow-100 text-yellow-600 text-xs font-medium px-2 py-1 rounded">
+            {season}
+          </span>
+        )}
+        {/* Type Tag */}
+        {type && (
+          <span className="bg-green-100 text-green-600 text-xs font-medium px-2 py-1 rounded">
+            {type}
+          </span>
+        )}
       </div>
 
       {/* Description Section with Ellipsis for Truncation */}
@@ -116,6 +133,14 @@ export const ProgramCard = ({
         {description}
       </p>
 
+      {/* Cost Section */}
+      {cost && (
+        <div className="mt-2 text-gray-700">
+          <span className="font-medium">Cost: </span>
+          {cost === 1 ? "$" : cost === 2 ? "$$" : "$$$"}
+        </div>
+      )}
+
       {/* Footer Section (Deadline & Location) */}
       <div className="mt-4 flex justify-between text-sm text-gray-700">
         <span className="font-medium">📅 Deadline: {deadline}</span>
@@ -125,6 +150,21 @@ export const ProgramCard = ({
       {/* Show Full Description Button */}
       {isExpanded && (
         <div className="mt-4 flex justify-between">
+          <div className="text-sm text-gray-700">
+            {/* Grade and Age */}
+            {grade && (
+              <div>
+                <span className="font-medium">Grade: </span>
+                {grade}
+              </div>
+            )}
+            {age && (
+              <div>
+                <span className="font-medium">Age: </span>
+                {age}
+              </div>
+            )}
+          </div>
           <button
             onClick={toggleCard}
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
