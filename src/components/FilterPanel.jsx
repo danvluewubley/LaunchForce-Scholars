@@ -106,7 +106,7 @@ export const FilterPanel = ({ filters, setFilters }) => {
         {
           label: "Age",
           key: "age",
-          options: ["18-22", "23-30", "31-40", "41+"],
+          options: ["13", "14", "15", "16", "17", "18", "19"],
         },
         {
           label: "Grade",
