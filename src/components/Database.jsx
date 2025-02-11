@@ -94,7 +94,7 @@ export const Database = () => {
 
   useEffect(() => {
     getOpportunitiesList();
-  }, [filters, searchQuery]); // Re-fetch when filters or searchQuery change
+  }, [filters, searchQuery]);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -102,37 +102,37 @@ export const Database = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    getOpportunitiesList(); // Re-fetch with the updated search query
+    getOpportunitiesList();
   };
 
   return (
-    <div className="min-h-screen flex flex-col sm:flex-row">
+    <div className="min-h-screen flex">
+      {/* Program Cards Section */}
       <div className="flex-1 p-6 space-y-6 flex flex-col items-center">
-        <form
-          onSubmit={handleSearchSubmit}
-          className="flex items-center border border-gray-300 rounded-lg p-2 w-full sm:w-64 md:w-150 lg:w-256"
-        >
+        {/* Search bar */}
+        <div className="flex items-center border border-gray-300 rounded-lg p-2 w-64 md:w-150 lg:w-256">
           <input
             type="text"
             placeholder="Search..."
             className="outline-none px-2 py-1 w-full"
             value={searchQuery}
-            onChange={handleSearchChange}
+            onChange={(e) => setSearchQuery(e.target.value)} // Update the search query state
           />
           <button
             type="submit"
             className="ml-2 px-4 py-1 bg-blue-500 text-white rounded-lg"
+            onClick={handleSearchSubmit}
           >
             Search
           </button>
-        </form>
+        </div>
 
-        <div className="mt-6 flex flex-col sm:flex-row sm:space-x-6 w-full">
-          {/* Program List */}
-          <div className="flex-1 h-[60vh] overflow-y-auto">
+        {/* Display the filtered program cards */}
+        <div className="w-64 md:w-150 lg:w-256 mt-6 flex justify-between">
+          <div>
             {opportunitiesList.length > 0 ? (
               opportunitiesList.map((program, index) => (
-                <div key={index}>
+                <div key={index} className="mb-4">
                   <ProgramCard {...program} />
                 </div>
               ))
@@ -143,7 +143,7 @@ export const Database = () => {
 
           {/* Filter Panel */}
           {isFilterVisible && (
-            <div className="w-full sm:w-60 md:w-80 h-[80vh] overflow-y-auto mt-6 sm:mt-0">
+            <div className="w-full sm:w-128 md:w-[240px] lg:w-80 h-[80vh] mt-6 sm:mt-0">
               <FilterPanel filters={filters} setFilters={setFilters} />
             </div>
           )}
