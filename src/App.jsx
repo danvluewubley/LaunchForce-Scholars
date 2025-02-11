@@ -11,6 +11,7 @@ import { EmailList } from "./pages/EmailList";
 import { ProgramCompass } from "./pages/ProgramCompass";
 import { Match } from "./pages/Match";
 import { Admission } from "./pages/Admission";
+import { Create } from "./pages/Create";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <Route path="/admissions-insider" element={<Admission />} />
             <Route path="/email-list" element={<EmailList />} />
             <Route path="/apply" element={<Team />} />
+            <Route path="/create" element={<Create />} />
           </Routes>
         </main>
         <Footer />

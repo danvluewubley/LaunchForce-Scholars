@@ -3,6 +3,7 @@ import { ProgramCard } from "./ProgramCard";
 import { FilterPanel } from "./FilterPanel";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../configs/firebase";
+import { CreateInternshipForm } from "./CreateInternshipForm";
 
 export const Database = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,7 +17,6 @@ export const Database = () => {
     age: [],
     grade: [],
   });
-
   const [opportunitiesList, setOpportunitiesList] = useState([]);
   const [isFilterVisible, setIsFilterVisible] = useState(true);
 
@@ -36,9 +36,10 @@ export const Database = () => {
         const matchesSearch =
           program.name.toLowerCase().includes(lowerCaseQuery) ||
           program.description.toLowerCase().includes(lowerCaseQuery) ||
-          program.tags.some((tag) =>
-            tag.toLowerCase().includes(lowerCaseQuery)
-          );
+          (Array.isArray(program.tags) &&
+            program.tags.some((tag) =>
+              tag.toLowerCase().includes(lowerCaseQuery)
+            ));
 
         const matchesSeason =
           filters.season.length === 0 ||
@@ -63,7 +64,6 @@ export const Database = () => {
                 programSkill.toLowerCase() === filterSkill.toLowerCase()
             )
           );
-
 
         const matchesAge =
           filters.age.length === 0 ||
@@ -94,26 +94,42 @@ export const Database = () => {
 
   useEffect(() => {
     getOpportunitiesList();
-  }, [filters, searchQuery]);
+  }, [filters, searchQuery]); // Re-fetch when filters or searchQuery change
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    getOpportunitiesList(); // Re-fetch with the updated search query
+  };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col sm:flex-row">
       <div className="flex-1 p-6 space-y-6 flex flex-col items-center">
-        <div className="flex items-center border border-gray-300 rounded-lg p-2 w-64 md:w-150 lg:w-256">
+        <form
+          onSubmit={handleSearchSubmit}
+          className="flex items-center border border-gray-300 rounded-lg p-2 w-full sm:w-64 md:w-150 lg:w-256"
+        >
           <input
             type="text"
             placeholder="Search..."
             className="outline-none px-2 py-1 w-full"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} 
+            onChange={handleSearchChange}
           />
-          <button className="ml-2 px-4 py-1 bg-blue-500 text-white rounded-lg">
+          <button
+            type="submit"
+            className="ml-2 px-4 py-1 bg-blue-500 text-white rounded-lg"
+          >
             Search
           </button>
-        </div>
+        </form>
 
-        <div className="w-64 md:w-150 lg:w-256 mt-6 flex justify-between">
-          <div>
+        <div className="mt-6 flex flex-col sm:flex-row sm:space-x-6 w-full">
+          {/* Program List */}
+          <div className="flex-1 h-[60vh] overflow-y-auto">
             {opportunitiesList.length > 0 ? (
               opportunitiesList.map((program, index) => (
                 <div key={index}>
@@ -125,12 +141,14 @@ export const Database = () => {
             )}
           </div>
 
+          {/* Filter Panel */}
           {isFilterVisible && (
-            <FilterPanel filters={filters} setFilters={setFilters} />
+            <div className="w-full sm:w-60 md:w-80 h-[80vh] overflow-y-auto mt-6 sm:mt-0">
+              <FilterPanel filters={filters} setFilters={setFilters} />
+            </div>
           )}
         </div>
       </div>
     </div>
   );
 };
-

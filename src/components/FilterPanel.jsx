@@ -171,8 +171,7 @@ export const FilterPanel = ({ filters, setFilters }) => {
         </div>
       )}
 
-      {/* Filter Panel (Visible on Medium and Larger Screens) */}
-      <div className="hidden md:block lg:block space-y-4 w-60 lg:w-80 p-6 border-l border-gray-300 bg-white">
+      <div className="hidden md:block lg:block space-y-4 w-60 lg:w-80 p-6 border-l border-gray-300 bg-white max-h-[80vh] overflow-y-auto">
         <h2 className="text-lg font-semibold mb-4">Filter Options</h2>
 
         {[
@@ -273,12 +272,37 @@ export const FilterPanel = ({ filters, setFilters }) => {
 
             {/* Checkbox Options (Dropdown Content) */}
             {openSections[key] && (
-              <CheckboxFilter
-                label={label}
-                options={options}
-                selectedOptions={filters[key]}
-                handleFilterChange={(e) => handleFilterChange(e, key)}
-              />
+              <div className="space-y-2">
+                {options.map((option) => (
+                  <div key={option}>
+                    <input
+                      type="checkbox"
+                      id={option}
+                      value={option}
+                      checked={filters[key]?.includes(option)}
+                      onChange={(e) =>
+                        setFilters((prev) => {
+                          const newFilters = { ...prev };
+                          if (e.target.checked) {
+                            newFilters[key] = [
+                              ...(newFilters[key] || []),
+                              option,
+                            ];
+                          } else {
+                            newFilters[key] = newFilters[key]?.filter(
+                              (o) => o !== option
+                            );
+                          }
+                          return newFilters;
+                        })
+                      }
+                    />
+                    <label htmlFor={option} className="ml-2">
+                      {option}
+                    </label>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         ))}
