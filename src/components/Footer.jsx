@@ -4,10 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 export const Footer = () => {
   const navigate = useNavigate();
 
-  // const scrollToTop = () => {
-  //   window.scrollTo(0, 0);
-  // };
-
   const handleNavigation = (path) => {
     navigate(path, { replace: false });
     setTimeout(() => window.scrollTo(0, 0), 0);
@@ -17,11 +13,11 @@ export const Footer = () => {
   return (
     <div className="w-full bg-gray h-auto text-white flex flex-col md:flex-row py-[40px] px-4 md:px-[100px]">
       <div className="w-full md:w-1/3 h-full flex flex-col text-purple mb-6 md:mb-0">
-        <h2 className="font-anton text-[24px] sm:text-[30px] md:text-[40px]">
+        <h2 className="font-anton text-[24px] sm:text-[30px] md:text-[30px] lg:text-[40px]">
           Contact Us
         </h2>
-        <div className="font-anonymous text-[16px] sm:text-[18px] md:text-[20px]">
-          <p>Email: launchforcescholars@gmail.com </p>
+        <div className="font-anonymous text-[16px] sm:text-[18px] md:text-[10px] lg:text-[20px]">
+          <p className="w-[90%]">Email: launchforcescholars@gmail.com </p>
           <p>
             Instagram:{" "}
             <a
@@ -38,10 +34,10 @@ export const Footer = () => {
 
       {/* Pages Section */}
       <div className="w-full md:w-1/3 h-full flex flex-col text-purple mb-6 md:mb-0">
-        <h2 className="font-anton text-[24px] sm:text-[30px] md:text-[40px]">
+        <h2 className="font-anton text-[24px] sm:text-[30px] md:text-[30px] lg:text-[40px]">
           Pages
         </h2>
-        <div className="font-anonymous text-[16px] sm:text-[18px] md:text-[20px] flex flex-col md:flex-row">
+        <div className="font-anonymous text-[16px] sm:text-[18px] md:text-[10px] lg:text-[20px] flex flex-col md:flex-row">
           <div className="w-full md:w-1/2">
             <Link
               to="/resources"
@@ -95,10 +91,10 @@ export const Footer = () => {
 
       {/* Relevant Links Section */}
       <div className="w-full md:w-1/3 h-full flex flex-col text-purple">
-        <h2 className="font-anton text-[24px] sm:text-[30px] md:text-[40px]">
+        <h2 className="font-anton text-[24px] sm:text-[30px] md:text-[30px] lg:text-[40px]">
           Relevant Links
         </h2>
-        <div className="font-anonymous text-[16px] sm:text-[18px] md:text-[20px]">
+        <div className="font-anonymous text-[16px] sm:text-[18px] md:text-[10px] lg:text-[20px]">
           <p>
             <Link
               to="/email-list"

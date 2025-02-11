@@ -49,7 +49,7 @@ export const Navbar = () => {
       <nav className="w-full md:max-w-[90%] mx-auto flex justify-between items-center h-[80px] px-6">
         <Link
           to="/"
-          className="font-anton text-purple text-[30px] whitespace-nowrap max-[1193px]:text-[20px]"
+          className="font-anton text-purple text-[30px] whitespace-nowrap lg:text-[20px] md:text-[15px]"
         >
           LaunchForce Scholars
         </Link>
@@ -64,7 +64,7 @@ export const Navbar = () => {
         <ul
           className={`md:flex gap-6 text-lg font-anonymous text-white absolute md:static top-[80px] left-0 w-full bg-black md:bg-transparent md:w-auto md:flex-row md:items-center ${
             menuOpen ? "flex flex-col" : "hidden"
-          } max-[1193px]:text-sm max-[1193px]:gap-4`}
+          } md:text-[10px] md:gap-0 lg:text-sm lg:gap-4`}
         >
           {/* Resources Dropdown */}
           <li className="relative w-full md:w-auto">
