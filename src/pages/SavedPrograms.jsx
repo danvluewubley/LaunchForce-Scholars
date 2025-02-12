@@ -7,6 +7,7 @@ import {
   where,
   doc,
   getDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { ProgramCard } from "../components/ProgramCard";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +16,7 @@ export const SavedPrograms = () => {
   const [favoritedPrograms, setFavoritedPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null); // Store the logged-in user
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     // This will listen for changes in the user's auth state
@@ -31,7 +32,6 @@ export const SavedPrograms = () => {
       if (!user) {
         console.log("No authenticated user.");
         setLoading(false);
-        navigate('/')
         return;
       }
 
@@ -102,7 +102,11 @@ export const SavedPrograms = () => {
       ) : favoritedPrograms.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {favoritedPrograms.map((program) => (
-            <ProgramCard key={program.id} {...program} />
+            <ProgramCard
+              key={program.id}
+              {...program}
+              onUnfavorite={() => handleUnfavorite(program.id)} // Pass the unfavorite handler
+            />
           ))}
         </div>
       ) : (
