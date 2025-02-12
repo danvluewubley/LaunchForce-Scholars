@@ -1,4 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { db, auth } from "../configs/firebase";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 
 export const ProgramCard = ({
   name,
@@ -7,29 +17,71 @@ export const ProgramCard = ({
   deadline,
   location,
   website,
-  isFavoritedInitially,
   season,
   cost,
   type,
   grade,
   age,
-  areaOfInterest
+  areaOfInterest,
+  id,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isFavorited, setIsFavorited] = useState(isFavoritedInitially);
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  // Check if program is already favorited when component mounts
+  useEffect(() => {
+    const checkIfFavorited = async () => {
+      if (!auth.currentUser) return;
+
+      const q = query(
+        collection(db, "favorites"),
+        where("userId", "==", auth.currentUser.uid),
+        where("opportunityId", "==", id)
+      );
+
+      const querySnapshot = await getDocs(q);
+      setIsFavorited(!querySnapshot.empty);
+    };
+
+    checkIfFavorited();
+  }, [id]);
 
   const toggleCard = (e) => {
     if (
-      e.target.closest(".favorite-btn") === null &&
-      e.target.closest(".website-link") === null
+      !e.target.closest(".favorite-btn") &&
+      !e.target.closest(".website-link")
     ) {
-      setIsExpanded(!isExpanded);
+      setIsExpanded((prev) => !prev);
     }
   };
 
-  const toggleFavorite = (e) => {
+  const toggleFavorite = async (e) => {
     e.stopPropagation();
-    setIsFavorited(!isFavorited);
+    if (!auth.currentUser) return;
+
+    if (isFavorited) {
+      // If already favorited, delete the document
+      const q = query(
+        collection(db, "favorites"),
+        where("userId", "==", auth.currentUser.uid),
+        where("opportunityId", "==", id)
+      );
+
+      const querySnapshot = await getDocs(q);
+      const docId = querySnapshot.docs[0]?.id; // Get the document ID
+
+      if (docId) {
+        await deleteDoc(doc(db, "favorites", docId)); // Delete the favorite document
+      }
+    } else {
+      // If not favorited, add the document
+      await addDoc(collection(db, "favorites"), {
+        opportunityId: id,
+        userId: auth.currentUser.uid,
+      });
+    }
+
+    setIsFavorited((prev) => !prev); // Toggle the favorite status
   };
 
   return (
@@ -37,13 +89,10 @@ export const ProgramCard = ({
       onClick={toggleCard}
       className="bg-white shadow-lg rounded-lg p-6 w-full max-w-xs lg:max-w-md border border-gray-200 cursor-pointer"
     >
-      {/* Header Section (Link, Heart, Tags) */}
+      {/* Header Section */}
       <div className="flex justify-between items-center">
-        {/* Program Name */}
         <h2 className="text-xl font-semibold text-gray-800 flex items-center">
           {name}
-
-          {/* Pop-out Window Icon linking to official website */}
           {website && (
             <a
               href={website}
@@ -63,7 +112,7 @@ export const ProgramCard = ({
           )}
         </h2>
 
-        {/* Favorite Button (Heart Icon) */}
+        {/* Favorite Button */}
         <button
           onClick={toggleFavorite} // Update favorite state
           className="favorite-btn text-gray-400 hover:text-[#A780C0]"
@@ -114,13 +163,11 @@ export const ProgramCard = ({
               {skill}
             </span>
           ))}
-        {/* Season Tag */}
         {season && (
           <span className="bg-yellow-100 text-yellow-600 text-xs font-medium px-2 py-1 rounded">
             {season}
           </span>
         )}
-        {/* Type Tag */}
         {type && (
           <span className="bg-green-100 text-green-600 text-xs font-medium px-2 py-1 rounded">
             {type}
@@ -128,7 +175,7 @@ export const ProgramCard = ({
         )}
       </div>
 
-      {/* Description Section with Ellipsis for Truncation */}
+      {/* Description Section */}
       <p
         className={`text-gray-600 mt-3 text-sm ${
           isExpanded ? "" : "line-clamp-2"
@@ -145,7 +192,7 @@ export const ProgramCard = ({
         </div>
       )}
 
-      {/* Footer Section (Deadline & Location) */}
+      {/* Footer Section */}
       <div className="mt-4 flex justify-between text-sm text-gray-700">
         <span className="font-medium">📅 Deadline: {deadline}</span>
         <span className="font-medium">📍 {location}</span>
@@ -155,17 +202,16 @@ export const ProgramCard = ({
       {isExpanded && (
         <div className="mt-4 flex justify-between">
           <div className="text-sm text-gray-700">
-            {/* Grade and Age */}
             {grade && (
               <div>
                 <span className="font-medium">Grade: </span>
-                {grade[0]} - {grade[grade.length - 1]} {/* Show age range */}
+                {grade[0]} - {grade[grade.length - 1]}
               </div>
             )}
             {age && (
               <div>
                 <span className="font-medium">Age: </span>
-                {age[0]} - {age[age.length - 1]} {/* Show age range */}
+                {age[0]} - {age[age.length - 1]}
               </div>
             )}
           </div>

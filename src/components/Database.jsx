@@ -3,7 +3,6 @@ import { ProgramCard } from "./ProgramCard";
 import { FilterPanel } from "./FilterPanel";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../configs/firebase";
-import { CreateInternshipForm } from "./CreateInternshipForm";
 
 export const Database = () => {
   const [searchQuery, setSearchQuery] = useState("");

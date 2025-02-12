@@ -12,6 +12,7 @@ import { ProgramCompass } from "./pages/ProgramCompass";
 import { Match } from "./pages/Match";
 import { Admission } from "./pages/Admission";
 import { Create } from "./pages/Create";
+import { SavedPrograms } from "./pages/SavedPrograms";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/email-list" element={<EmailList />} />
             <Route path="/apply" element={<Team />} />
             <Route path="/create" element={<Create />} />
+            <Route path="/saved" element={<SavedPrograms />} />
           </Routes>
         </main>
         <Footer />
