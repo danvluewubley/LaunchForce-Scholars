@@ -95,7 +95,7 @@ export const SavedPrograms = () => {
   }, [user]); // Fetch programs only when 'user' state changes
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 pt-10">
       <h1 className="text-2xl font-bold mb-4">Favorited Programs</h1>
       {loading ? (
         <p>Loading...</p>

@@ -31,6 +31,7 @@ export const Team = () => {
           hours="About 2 hours / week"
           experience="None, will receive training."
           buttonText="APPLY HERE"
+          link="https://forms.gle/qErYU2WhJqYqdQG4A"
         />
         <hr className="w-[75%] md:w-[87%] lg:w-[94%] self-center" />
 
@@ -40,6 +41,7 @@ export const Team = () => {
           hours="3 hours / week"
           experience="Must have prior experience in applying and accepted to programs. Understanding of the college admissions process and having passion in your extracurricular activities preferred. Will receive further training."
           buttonText="APPLY HERE"
+          link="https://forms.gle/qErYU2WhJqYqdQG4A"
         />
         <hr className="w-[75%] md:w-[87%] lg:w-[94%] self-center" />
 
@@ -49,6 +51,7 @@ export const Team = () => {
           hours="About 2 hours / week, including virtual meetings."
           experience="Communication & organization skills needed. Graphic Design skills preferred."
           buttonText="APPLY HERE"
+          link="https://forms.gle/qErYU2WhJqYqdQG4A"
         />
         <hr className="w-[75%] md:w-[87%] lg:w-[94%] self-center" />
 
@@ -58,6 +61,7 @@ export const Team = () => {
           hours="About 1 hour / week"
           experience="Those with writing experience preferred. Writing abilities required."
           buttonText="APPLY HERE"
+          link="https://forms.gle/qErYU2WhJqYqdQG4A"
         />
       </section>
     </div>

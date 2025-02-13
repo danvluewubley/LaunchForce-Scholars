@@ -173,7 +173,7 @@ export const Navbar = () => {
                     <Link to="/saved">Saved Programs</Link>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-800">
-                    <button onClick={handleLogout}>Log out</button>
+                    <button onClick={handleLogout} className="cursor-pointer">Log out</button>
                   </li>
                 </ul>
               </div>

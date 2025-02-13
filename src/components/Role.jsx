@@ -21,7 +21,7 @@ export const Role = ({ title, description, hours, experience, buttonText, link }
             // Assuming 'link' is the variable holding the URL or link
             alert("The form is not up yet!");
           } else {
-            window.location.href = link; // This will redirect to the provided link
+            window.open(link, "_blank"); // This will redirect to the provided link
           }
         }}
       >

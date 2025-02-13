@@ -18,6 +18,8 @@ export const Database = () => {
   });
   const [opportunitiesList, setOpportunitiesList] = useState([]);
   const [isFilterVisible, setIsFilterVisible] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1); // Keep track of the current page
+  const [itemsPerPage] = useState(20); // Number of items per page
 
   const opportunitiesRef = collection(db, "opportunities");
 
@@ -104,8 +106,24 @@ export const Database = () => {
     getOpportunitiesList();
   };
 
+  // Paginate the results
+  const paginatedPrograms = opportunitiesList.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  // Calculate total pages
+  const totalPages = Math.ceil(opportunitiesList.length / itemsPerPage);
+
+  // Handle pagination button clicks
+  const goToPage = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col">
       {/* Program Cards Section */}
       <div className="flex-1 p-6 space-y-6 flex flex-col items-center">
         {/* Search bar */}
@@ -127,10 +145,11 @@ export const Database = () => {
         </div>
 
         {/* Display the filtered program cards */}
-        <div className="w-64 md:w-150 lg:w-256 mt-6 flex justify-between">
-          <div>
-            {opportunitiesList.length > 0 ? (
-              opportunitiesList.map((program, index) => (
+        <div className="w-64 md:w-150 lg:w-256 mt-6 flex flex-col md:flex-row justify-between">
+          {/* Program Cards */}
+          <div className="mb-4 md:mb-0 lg:w-3/4">
+            {paginatedPrograms.length > 0 ? (
+              paginatedPrograms.map((program, index) => (
                 <div key={index} className="mb-4">
                   <ProgramCard {...program} />
                 </div>
@@ -142,10 +161,31 @@ export const Database = () => {
 
           {/* Filter Panel */}
           {isFilterVisible && (
-            <div className="w-full sm:w-128 md:w-[240px] lg:w-80 h-[80vh] mt-6 sm:mt-0">
+            <div className="w-full sm:w-128 md:w-[240px] lg:w-80 lg:h-[80vh] mt-0 order-first md:order-last">
               <FilterPanel filters={filters} setFilters={setFilters} />
             </div>
           )}
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="mt-6 flex justify-center space-x-4 items-center">
+          <button
+            onClick={() => goToPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-gray-300 rounded-lg"
+          >
+            Prev
+          </button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => goToPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-gray-300 rounded-lg"
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>

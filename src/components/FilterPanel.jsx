@@ -41,7 +41,7 @@ export const FilterPanel = ({ filters, setFilters }) => {
     <>
       {/* Filter Button (Visible on Small Screens Only, Different Shape) */}
       <button
-        className="sm:block md:hidden lg:hidden bg-blue-500 text-white py-2 px-4 rounded-2xl text-sm mb-4 h-8 absolute top-[420px] left-[70px] flex justify-center items-center"
+        className="sm:block md:hidden lg:hidden bg-blue-500 text-white py-2 px-4 rounded-2xl text-sm mb-4 h-8  flex justify-center items-center"
         onClick={() => setIsModalVisible(true)}
       >
         Show Filters
