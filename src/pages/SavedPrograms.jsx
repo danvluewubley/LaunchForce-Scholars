@@ -7,7 +7,6 @@ import {
   where,
   doc,
   getDoc,
-  deleteDoc,
 } from "firebase/firestore";
 import { ProgramCard } from "../components/ProgramCard";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +15,8 @@ export const SavedPrograms = () => {
   const [favoritedPrograms, setFavoritedPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null); // Store the logged-in user
+  const [currentPage, setCurrentPage] = useState(1); // Track the current page
+  const itemsPerPage = 18; // Set the number of items per page
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,28 +52,15 @@ export const SavedPrograms = () => {
         return;
       }
 
-      console.log(
-        "Favorite Docs:",
-        favoriteDocs.docs.map((doc) => doc.data())
-      );
-
       const programIds = favoriteDocs.docs.map(
         (doc) => doc.data().opportunityId
       );
-      console.log("Program IDs:", programIds);
 
       // Fetch the program details from 'SavedPrograms' collection
       const programPromises = programIds.map(async (programId) => {
-        console.log(`Fetching program with ID: ${programId}`); // Log each programId
-
         const programRef = doc(db, "opportunities", programId);
         try {
           const programSnap = await getDoc(programRef);
-          console.log(
-            `Fetched Program with ID ${programId}:`,
-            programSnap.exists() ? programSnap.data() : "Not found"
-          );
-
           return programSnap.exists()
             ? { id: programId, ...programSnap.data() }
             : null;
@@ -85,30 +73,60 @@ export const SavedPrograms = () => {
       const programs = (await Promise.all(programPromises)).filter(
         (program) => program !== null
       );
-      console.log("Programs fetched:", programs);
 
       setFavoritedPrograms(programs);
       setLoading(false);
     };
 
     fetchFavoritedPrograms();
-  }, [user]); // Fetch programs only when 'user' state changes
+  }, [user]);
+
+  // Pagination logic
+  const indexOfLastProgram = currentPage * itemsPerPage;
+  const indexOfFirstProgram = indexOfLastProgram - itemsPerPage;
+  const currentPrograms = favoritedPrograms.slice(
+    indexOfFirstProgram,
+    indexOfLastProgram
+  );
+
+  const totalPages = Math.ceil(favoritedPrograms.length / itemsPerPage);
+
+  const goToPage = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="container mx-auto px-4 pt-10">
+    <div className="container mx-auto px-4 pt-10 pb-5 md:pb-0">
       <h1 className="text-2xl font-bold mb-4">Favorited Programs</h1>
       {loading ? (
         <p>Loading...</p>
       ) : favoritedPrograms.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {favoritedPrograms.map((program) => (
-            <ProgramCard
-              key={program.id}
-              {...program}
-              onUnfavorite={() => handleUnfavorite(program.id)} // Pass the unfavorite handler
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {currentPrograms.map((program) => (
+              <ProgramCard key={program.id} {...program} />
+            ))}
+          </div>
+
+          {/* Pagination Controls */}
+          <div className="mt-6 flex justify-center space-x-4 items-center">
+            <button
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-gray-300 rounded-lg"
+            >
+              Prev
+            </button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 bg-gray-300 rounded-lg"
+            >
+              Next
+            </button>
+          </div>
+        </>
       ) : (
         <p>No favorited programs yet.</p>
       )}
