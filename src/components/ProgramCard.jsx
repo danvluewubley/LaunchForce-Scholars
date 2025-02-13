@@ -147,11 +147,11 @@ export const ProgramCard = ({
 
       {/* Tags Section */}
       <div className="flex flex-wrap gap-2 mt-2">
-        {eligibility && (
+        {eligibility && eligibility !== "None" && (
           <span
             className={`${
               eligibility === "Minority"
-                ? "bg-purple-100 text-purple-600" // You can change this color as per your design
+                ? "bg-purple-100 text-purple-600"
                 : eligibility === "Female"
                 ? "bg-pink-100 text-pink-600"
                 : "bg-yellow-100 text-yellow-600"
