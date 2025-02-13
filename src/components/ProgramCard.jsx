@@ -210,7 +210,7 @@ export const ProgramCard = ({
           </div>
         )}
 
-        {skills &&
+        {skills && skills[0] != "TBA" &&
           skills.map((skill, index) => (
             <span
               key={index}
