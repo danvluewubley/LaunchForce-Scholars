@@ -162,43 +162,51 @@ export const ProgramCard = ({
         )}
 
         {areaOfInterest && (
-          <span
-            className={`${
-              areaOfInterest === "Business"
-                ? "bg-blue-100 text-blue-600"
-                : areaOfInterest === "Entrepreneurship"
-                ? "bg-teal-100 text-teal-600"
-                : areaOfInterest === "Finance"
-                ? "bg-green-100 text-green-600"
-                : areaOfInterest === "Accounting"
-                ? "bg-gray-100 text-gray-600"
-                : areaOfInterest === "Marketing"
-                ? "bg-red-100 text-red-600"
-                : areaOfInterest === "Science"
-                ? "bg-yellow-100 text-yellow-600"
-                : areaOfInterest === "Technology"
-                ? "bg-indigo-100 text-indigo-600"
-                : areaOfInterest === "Health"
-                ? "bg-pink-100 text-pink-600"
-                : areaOfInterest === "Biology"
-                ? "bg-green-100 text-green-600"
-                : areaOfInterest === "Chemistry"
-                ? "bg-blue-100 text-blue-600"
-                : areaOfInterest === "Genetics"
-                ? "bg-purple-100 text-purple-600"
-                : areaOfInterest === "Environmental"
-                ? "bg-lime-100 text-lime-600"
-                : areaOfInterest === "Computer Science"
-                ? "bg-teal-100 text-teal-600"
-                : areaOfInterest === "Biochemistry"
-                ? "bg-pink-100 text-pink-600"
-                : areaOfInterest === "Social Advocacy"
-                ? "bg-orange-100 text-orange-600"
-                : "bg-black text-white"
-            } text-xs font-medium px-2 py-1 rounded`}
-          >
-            {areaOfInterest}
-          </span>
+          <div className="flex flex-wrap gap-2">
+            {(Array.isArray(areaOfInterest)
+              ? areaOfInterest
+              : areaOfInterest.split(",")
+            ).map((interest, index) => (
+              <span
+                key={index}
+                className={`${
+                  interest.trim() === "Business"
+                    ? "bg-blue-100 text-blue-600"
+                    : interest.trim() === "Entrepreneurship"
+                    ? "bg-teal-100 text-teal-600"
+                    : interest.trim() === "Finance"
+                    ? "bg-green-100 text-green-600"
+                    : interest.trim() === "Accounting"
+                    ? "bg-gray-100 text-gray-600"
+                    : interest.trim() === "Marketing"
+                    ? "bg-red-100 text-red-600"
+                    : interest.trim() === "Science"
+                    ? "bg-yellow-100 text-yellow-600"
+                    : interest.trim() === "Technology"
+                    ? "bg-indigo-100 text-indigo-600"
+                    : interest.trim() === "Health"
+                    ? "bg-pink-100 text-pink-600"
+                    : interest.trim() === "Biology"
+                    ? "bg-green-100 text-green-600"
+                    : interest.trim() === "Chemistry"
+                    ? "bg-blue-100 text-blue-600"
+                    : interest.trim() === "Genetics"
+                    ? "bg-purple-100 text-purple-600"
+                    : interest.trim() === "Environmental"
+                    ? "bg-lime-100 text-lime-600"
+                    : interest.trim() === "Computer Science"
+                    ? "bg-teal-100 text-teal-600"
+                    : interest.trim() === "Biochemistry"
+                    ? "bg-pink-100 text-pink-600"
+                    : interest.trim() === "Social Advocacy"
+                    ? "bg-orange-100 text-orange-600"
+                    : "bg-black text-white"
+                } text-xs font-medium px-2 py-1 rounded`}
+              >
+                {interest.trim()}
+              </span>
+            ))}
+          </div>
         )}
 
         {skills &&
@@ -236,15 +244,12 @@ export const ProgramCard = ({
           </span>
         )}
         {(cost === "Paid/Stipend" ||
-          cost === "Free" ||
           cost === "Aid Available" ||
           cost === "No Aid Available") && (
           <span
             className={`${
               cost === "Paid/Stipend"
                 ? "bg-green-100 text-green-600" // Green for Paid/Stipend
-                : cost === "Free"
-                ? "bg-blue-100 text-blue-600" // Blue for Free
                 : cost === "Aid Available"
                 ? "bg-teal-100 text-teal-600" // Teal for Aid Available
                 : cost === "No Aid Available"
@@ -284,7 +289,9 @@ export const ProgramCard = ({
       {cost && (
         <div className="mt-2 text-gray-700">
           <span className="font-medium">Cost: </span>
-          {cost === "$1-100"
+          {cost === "Free"
+            ? "Free"
+            : cost === "$1-100"
             ? "$"
             : cost === "$101-500"
             ? "$$"
