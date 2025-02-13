@@ -15,6 +15,7 @@ export const Database = () => {
     skills: [],
     age: [],
     grade: [],
+    eligibility: [],
   });
   const [opportunitiesList, setOpportunitiesList] = useState([]);
   const [isFilterVisible, setIsFilterVisible] = useState(true);
@@ -74,6 +75,10 @@ export const Database = () => {
           filters.grade.length === 0 ||
           filters.grade.some((grade) => program.grade.includes(grade));
 
+        const matchesEligibility =
+          filters.eligibility.length === 0 ||
+          filters.eligibility.includes(program.eligibility);
+
         return (
           matchesSearch &&
           matchesSeason &&
@@ -83,7 +88,8 @@ export const Database = () => {
           matchesAreaOfInterest &&
           matchesSkills &&
           matchesAge &&
-          matchesGrade
+          matchesGrade &&
+          matchesEligibility
         );
       });
 

@@ -24,11 +24,11 @@ export const ProgramCard = ({
   age,
   areaOfInterest,
   id,
+  eligibility,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
 
-  // Check if program is already favorited when component mounts
   useEffect(() => {
     const checkIfFavorited = async () => {
       if (!auth.currentUser) return;
@@ -60,7 +60,6 @@ export const ProgramCard = ({
     if (!auth.currentUser) return;
 
     if (isFavorited) {
-      // If already favorited, delete the document
       const q = query(
         collection(db, "favorites"),
         where("userId", "==", auth.currentUser.uid),
@@ -68,20 +67,19 @@ export const ProgramCard = ({
       );
 
       const querySnapshot = await getDocs(q);
-      const docId = querySnapshot.docs[0]?.id; // Get the document ID
+      const docId = querySnapshot.docs[0]?.id;
 
       if (docId) {
-        await deleteDoc(doc(db, "favorites", docId)); // Delete the favorite document
+        await deleteDoc(doc(db, "favorites", docId));
       }
     } else {
-      // If not favorited, add the document
       await addDoc(collection(db, "favorites"), {
         opportunityId: id,
         userId: auth.currentUser.uid,
       });
     }
 
-    setIsFavorited((prev) => !prev); // Toggle the favorite status
+    setIsFavorited((prev) => !prev);
   };
 
   return (
@@ -149,11 +147,60 @@ export const ProgramCard = ({
 
       {/* Tags Section */}
       <div className="flex flex-wrap gap-2 mt-2">
+        {eligibility && (
+          <span
+            className={`${
+              eligibility === "Minority"
+                ? "bg-purple-100 text-purple-600" // You can change this color as per your design
+                : eligibility === "Female"
+                ? "bg-pink-100 text-pink-600"
+                : "bg-yellow-100 text-yellow-600"
+            } text-xs font-medium px-2 py-1 rounded`}
+          >
+            {eligibility}
+          </span>
+        )}
+
         {areaOfInterest && (
-          <span className="bg-yellow-100 text-yellow-600 text-xs font-medium px-2 py-1 rounded">
+          <span
+            className={`${
+              areaOfInterest === "Business"
+                ? "bg-blue-100 text-blue-600"
+                : areaOfInterest === "Entrepreneurship"
+                ? "bg-teal-100 text-teal-600"
+                : areaOfInterest === "Finance"
+                ? "bg-green-100 text-green-600"
+                : areaOfInterest === "Accounting"
+                ? "bg-gray-100 text-gray-600"
+                : areaOfInterest === "Marketing"
+                ? "bg-red-100 text-red-600"
+                : areaOfInterest === "Science"
+                ? "bg-yellow-100 text-yellow-600"
+                : areaOfInterest === "Technology"
+                ? "bg-indigo-100 text-indigo-600"
+                : areaOfInterest === "Health"
+                ? "bg-pink-100 text-pink-600"
+                : areaOfInterest === "Biology"
+                ? "bg-green-100 text-green-600"
+                : areaOfInterest === "Chemistry"
+                ? "bg-blue-100 text-blue-600"
+                : areaOfInterest === "Genetics"
+                ? "bg-purple-100 text-purple-600"
+                : areaOfInterest === "Environmental"
+                ? "bg-lime-100 text-lime-600"
+                : areaOfInterest === "Computer Science"
+                ? "bg-teal-100 text-teal-600"
+                : areaOfInterest === "Biochemistry"
+                ? "bg-pink-100 text-pink-600"
+                : areaOfInterest === "Social Advocacy"
+                ? "bg-orange-100 text-orange-600"
+                : "bg-black text-white"
+            } text-xs font-medium px-2 py-1 rounded`}
+          >
             {areaOfInterest}
           </span>
         )}
+
         {skills &&
           skills.map((skill, index) => (
             <span
@@ -164,10 +211,59 @@ export const ProgramCard = ({
             </span>
           ))}
         {season && (
-          <span className="bg-yellow-100 text-yellow-600 text-xs font-medium px-2 py-1 rounded">
+          <span
+            className={`${
+              season === "Summer"
+                ? "bg-yellow-100 text-yellow-600"
+                : season === "Fall"
+                ? "bg-orange-100 text-orange-600"
+                : season === "Winter"
+                ? "bg-blue-100 text-blue-600"
+                : season === "Spring"
+                ? "bg-green-100 text-green-600"
+                : season === "Year Round"
+                ? "bg-gray-100 text-gray-600"
+                : season === "Long Term"
+                ? "bg-indigo-100 text-indigo-600"
+                : season === "1+ Years"
+                ? "bg-teal-100 text-teal-600"
+                : season === "<= 1 Month"
+                ? "bg-red-100 text-red-600"
+                : ""
+            } text-xs font-medium px-2 py-1 rounded`}
+          >
             {season}
           </span>
         )}
+        {(cost === "Paid/Stipend" ||
+          cost === "Free" ||
+          cost === "Aid Available" ||
+          cost === "No Aid Available") && (
+          <span
+            className={`${
+              cost === "Paid/Stipend"
+                ? "bg-green-100 text-green-600" // Green for Paid/Stipend
+                : cost === "Free"
+                ? "bg-blue-100 text-blue-600" // Blue for Free
+                : cost === "Aid Available"
+                ? "bg-teal-100 text-teal-600" // Teal for Aid Available
+                : cost === "No Aid Available"
+                ? "bg-red-100 text-red-600" // Red for No Aid Available
+                : ""
+            } text-xs font-medium px-2 py-1 rounded`}
+          >
+            {cost === "Paid/Stipend"
+              ? "Paid/Stipend"
+              : cost === "Free"
+              ? "Free"
+              : cost === "Aid Available"
+              ? "Aid Available"
+              : cost === "No Aid Available"
+              ? "No Aid Available"
+              : ""}
+          </span>
+        )}
+
         {type && (
           <span className="bg-green-100 text-green-600 text-xs font-medium px-2 py-1 rounded">
             {type}
@@ -188,7 +284,15 @@ export const ProgramCard = ({
       {cost && (
         <div className="mt-2 text-gray-700">
           <span className="font-medium">Cost: </span>
-          {cost === "Low Cost" ? "$" : cost === "High Cost" ? "$$" : ""}
+          {cost === "$1-100"
+            ? "$"
+            : cost === "$101-500"
+            ? "$$"
+            : cost === "$501-1000"
+            ? "$$$"
+            : cost === "$1000+"
+            ? "$$$$"
+            : ""}
         </div>
       )}
 
