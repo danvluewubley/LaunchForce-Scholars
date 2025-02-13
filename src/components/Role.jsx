@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Role = ({ title, description, hours, experience, buttonText }) => {
+export const Role = ({ title, description, hours, experience, buttonText, link }) => {
   return (
     <div className="mx-[49px]">
       <h2 className="font-antonio font-bold text-[30px] md:text-[36px] lg:text-[40px] py-4">
@@ -14,7 +14,17 @@ export const Role = ({ title, description, hours, experience, buttonText }) => {
         <br />
         <span className="font-bold">EXPERIENCE REQUIRED:</span> {experience}
       </p>
-      <button className="bg-purple font-anton text-4xl px-[69px] py-[19px] mb-10 cursor-pointer">
+      <button
+        className="bg-purple font-anton text-4xl px-[69px] py-[19px] mb-10 cursor-pointer"
+        onClick={() => {
+          if (!link) {
+            // Assuming 'link' is the variable holding the URL or link
+            alert("The form is not up yet!");
+          } else {
+            window.location.href = link; // This will redirect to the provided link
+          }
+        }}
+      >
         {buttonText}
       </button>
     </div>
