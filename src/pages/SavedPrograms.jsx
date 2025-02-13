@@ -21,6 +21,7 @@ export const SavedPrograms = () => {
 
   useEffect(() => {
     // This will listen for changes in the user's auth state
+    document.title = "Saved Programs";
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       setUser(currentUser); // Set the user state when login state changes
     });
