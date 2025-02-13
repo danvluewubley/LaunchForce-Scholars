@@ -110,6 +110,11 @@ export const FilterPanel = ({ filters, setFilters }) => {
                   "Research Mentorship",
                   "Self-Research",
                   "Non-STEM Research",
+                  "Biochemistry",
+                  "Genetics",
+                  "Environmental",
+                  "Humanities",
+                  "Computer Science",
                 ],
               },
               {
@@ -224,6 +229,11 @@ export const FilterPanel = ({ filters, setFilters }) => {
               "Research Mentorship",
               "Self-Research",
               "Non-STEM Research",
+              "Biochemistry",
+              "Genetics",
+              "Environmental",
+              "Humanities",
+              "Computer Science",
             ],
           },
           {

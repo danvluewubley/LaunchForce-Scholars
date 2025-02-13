@@ -16,7 +16,7 @@ export const ProgramCard = ({
   description,
   deadline,
   location,
-  website,
+  link,
   season,
   cost,
   type,
@@ -93,9 +93,9 @@ export const ProgramCard = ({
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold text-gray-800 flex items-center">
           {name}
-          {website && (
+          {link && (
             <a
-              href={website}
+              href={link}
               target="_blank"
               rel="noopener noreferrer"
               className="website-link ml-2"
@@ -188,7 +188,7 @@ export const ProgramCard = ({
       {cost && (
         <div className="mt-2 text-gray-700">
           <span className="font-medium">Cost: </span>
-          {cost === 1 ? "$" : cost === 2 ? "$$" : "$$$"}
+          {cost === "Low Cost" ? "$" : cost === "High Cost" ? "$$" : ""}
         </div>
       )}
 
@@ -205,13 +205,18 @@ export const ProgramCard = ({
             {grade && (
               <div>
                 <span className="font-medium">Grade: </span>
-                {grade[0]} - {grade[grade.length - 1]}
+                {grade[0] === grade[grade.length - 1]
+                  ? grade[0]
+                  : `${grade[0]} - ${grade[grade.length - 1]}`}
               </div>
             )}
+
             {age && (
               <div>
                 <span className="font-medium">Age: </span>
-                {age[0]} - {age[age.length - 1]}
+                {age[0] === age[age.length - 1]
+                  ? age[0]
+                  : `${age[0]} - ${age[age.length - 1]}`}
               </div>
             )}
           </div>
