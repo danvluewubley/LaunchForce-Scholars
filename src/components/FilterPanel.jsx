@@ -22,6 +22,93 @@ export const FilterPanel = ({ filters, setFilters }) => {
     setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };
 
+  const options = [
+    {
+      label: "Season",
+      key: "season",
+      options: [
+        "Summer",
+        "Fall",
+        "Winter",
+        "Spring",
+        "Year Round",
+        "Long Term",
+      ],
+    },
+    {
+      label: "Cost",
+      key: "cost",
+      options: [
+        "Paid/Stipend",
+        "Free",
+        "Low Cost",
+        "Aid Available",
+        "High Cost",
+        "No Aid Available",
+      ],
+    },
+    {
+      label: "Location",
+      key: "location",
+      options: ["NYC", "USA (residential)", "Virtual", "Hybrid"],
+    },
+    {
+      label: "Type",
+      key: "type",
+      options: [
+        "Research",
+        "STEM Research",
+        "Non-STEM Research",
+        "Mentored",
+        "Lab Research",
+        "Program",
+        "Start-Up Creation",
+      ],
+    },
+    {
+      label: "Area of Interest",
+      key: "areaOfInterest",
+      options: [
+        "Business",
+        "Entrepreneurship",
+        "Finance",
+        "Accounting",
+        "Marketing",
+        "Science",
+        "Technology",
+        "Health",
+        "Biology",
+        "Chemistry",
+        "Genetics",
+        "Environmental",
+        "Computer Science",
+        "Biochemistry",
+        "Social Advocacy",
+      ],
+    },
+    {
+      label: "Skills Learned",
+      key: "skills",
+      options: [
+        "Communication",
+        "Machine Learning",
+        "Data Science",
+        "Python",
+        "Statistics",
+      ],
+    },
+    {
+      label: "Age",
+      key: "age",
+      options: ["13", "14", "15", "16", "17", "18", "19"],
+    },
+    {
+      label: "Grade",
+      key: "grade",
+      options: ["Freshman", "Sophomore", "Junior", "Senior"],
+    },
+  ];
+
   const handleFilterChange = (e, filterType) => {
     const { value, checked } = e.target;
     setFilters((prevFilters) => {
@@ -39,7 +126,6 @@ export const FilterPanel = ({ filters, setFilters }) => {
 
   return (
     <>
-      {/* Filter Button (Visible on Small Screens Only, Different Shape) */}
       <button
         className="sm:block md:hidden lg:hidden bg-blue-500 text-white py-2 px-4 rounded-2xl text-sm mb-4 h-8  flex justify-center items-center"
         onClick={() => setIsModalVisible(true)}
@@ -47,11 +133,9 @@ export const FilterPanel = ({ filters, setFilters }) => {
         Show Filters
       </button>
 
-      {/* Modal for Small Screens */}
       {isModalVisible && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg w-full max-w-md relative">
-            {/* Close Button */}
             <button
               className="absolute top-4 right-4 text-lg text-gray-500 hover:text-gray-800"
               onClick={() => setIsModalVisible(false)}
@@ -60,85 +144,7 @@ export const FilterPanel = ({ filters, setFilters }) => {
             </button>
             <h2 className="text-lg font-semibold mb-4">Filter Options</h2>
 
-            {[
-              {
-                label: "Season",
-                key: "season",
-                options: [
-                  "Summer",
-                  "Fall",
-                  "Winter",
-                  "Spring",
-                  "Year Round",
-                  "Long Term",
-                ],
-              },
-              {
-                label: "Cost",
-                key: "cost",
-                options: [
-                  "Paid/Stipend",
-                  "Free",
-                  "Low Cost",
-                  "Aid Available",
-                  "High Cost",
-                  "No Aid Available",
-                ],
-              },
-              {
-                label: "Location",
-                key: "location",
-                options: ["NYC", "USA (residential)", "Virtual", "Hybrid"],
-              },
-              {
-                label: "Type",
-                key: "type",
-                options: ["Competition", "Scholarship"],
-              },
-              {
-                label: "Area of Interest",
-                key: "areaOfInterest",
-                options: [
-                  "STEM",
-                  "Chemistry",
-                  "Biology",
-                  "Physics",
-                  "Astronomy",
-                  "Neuroscience",
-                  "Healthcare / Medicine",
-                  "STEM Research",
-                  "Research Mentorship",
-                  "Self-Research",
-                  "Non-STEM Research",
-                  "Biochemistry",
-                  "Genetics",
-                  "Environmental",
-                  "Humanities",
-                  "Computer Science",
-                ],
-              },
-              {
-                label: "Skills Learned",
-                key: "skills",
-                options: [
-                  "Communication",
-                  "Machine Learning",
-                  "Data Science",
-                  "Python",
-                  "Statistics",
-                ],
-              },
-              {
-                label: "Age",
-                key: "age",
-                options: ["13", "14", "15", "16", "17", "18", "19"],
-              },
-              {
-                label: "Grade",
-                key: "grade",
-                options: ["Freshman", "Sophomore", "Junior", "Senior"],
-              },
-            ].map(({ label, key, options }) => (
+            {options.map(({ label, key, options }) => (
               <div key={key} className="space-y-2 mb-4">
                 <h3
                   className="font-semibold cursor-pointer flex justify-between items-center"
@@ -161,7 +167,6 @@ export const FilterPanel = ({ filters, setFilters }) => {
                   </svg>
                 </h3>
 
-                {/* Checkbox Options (Dropdown Content) */}
                 {openSections[key] && (
                   <CheckboxFilter
                     label={label}
@@ -179,85 +184,7 @@ export const FilterPanel = ({ filters, setFilters }) => {
       <div className="hidden md:block lg:block space-y-4 w-60 lg:w-80 p-6 border-l border-gray-300 bg-white max-h-[80vh] overflow-y-auto">
         <h2 className="text-lg font-semibold mb-4">Filter Options</h2>
 
-        {[
-          {
-            label: "Season",
-            key: "season",
-            options: [
-              "Summer",
-              "Fall",
-              "Winter",
-              "Spring",
-              "Year Round",
-              "Long Term",
-            ],
-          },
-          {
-            label: "Cost",
-            key: "cost",
-            options: [
-              "Paid/Stipend",
-              "Free",
-              "Low Cost",
-              "Aid Available",
-              "High Cost",
-              "No Aid Available",
-            ],
-          },
-          {
-            label: "Location",
-            key: "location",
-            options: ["NYC", "USA (residential)", "Virtual", "Hybrid"],
-          },
-          {
-            label: "Type",
-            key: "type",
-            options: ["Competition", "Scholarship"],
-          },
-          {
-            label: "Area of Interest",
-            key: "areaOfInterest",
-            options: [
-              "STEM",
-              "Chemistry",
-              "Biology",
-              "Physics",
-              "Astronomy",
-              "Neuroscience",
-              "Healthcare / Medicine",
-              "STEM Research",
-              "Research Mentorship",
-              "Self-Research",
-              "Non-STEM Research",
-              "Biochemistry",
-              "Genetics",
-              "Environmental",
-              "Humanities",
-              "Computer Science",
-            ],
-          },
-          {
-            label: "Skills Learned",
-            key: "skills",
-            options: [
-              "Communication",
-              "Machine Learning",
-              "Data Science",
-              "Python",
-              "Statistics",
-            ],
-          },
-          {
-            label: "Age",
-            key: "age",
-            options: ["13", "14", "15", "16", "17", "18", "19"],
-          },
-          {
-            label: "Grade",
-            key: "grade",
-            options: ["Freshman", "Sophomore", "Junior", "Senior"],
-          },
-        ].map(({ label, key, options }) => (
+        {options.map(({ label, key, options }) => (
           <div key={key} className="space-y-2 mb-4">
             <h3
               className="font-semibold cursor-pointer flex justify-between items-center"
@@ -280,7 +207,6 @@ export const FilterPanel = ({ filters, setFilters }) => {
               </svg>
             </h3>
 
-            {/* Checkbox Options (Dropdown Content) */}
             {openSections[key] && (
               <div className="space-y-2">
                 {options.map((option) => (
