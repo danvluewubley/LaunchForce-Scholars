@@ -25,6 +25,7 @@ export const ProgramCard = ({
   areaOfInterest,
   id,
   eligibility,
+  isRollingDeadline,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
@@ -305,7 +306,18 @@ export const ProgramCard = ({
 
       {/* Footer Section */}
       <div className="mt-4 flex justify-between text-sm text-gray-700">
-        <span className="font-medium">📅 Deadline: {deadline}</span>
+        <span className="font-medium">
+          📅 Deadline:{" "}
+          {deadline && !isNaN(new Date(deadline))
+            ? new Date(deadline).toLocaleDateString()
+            : isRollingDeadline
+            ? "Rolling"
+            : ""}
+          {deadline && isRollingDeadline && !isNaN(new Date(deadline))
+            ? " (Rolling)"
+            : ""}
+        </span>
+
         <span className="font-medium">📍 {location}</span>
       </div>
 

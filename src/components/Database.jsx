@@ -16,6 +16,7 @@ export const Database = () => {
     age: [],
     grade: [],
     eligibility: [],
+    eligibility: [],
   });
   const [opportunitiesList, setOpportunitiesList] = useState([]);
   const [isFilterVisible, setIsFilterVisible] = useState(true);
