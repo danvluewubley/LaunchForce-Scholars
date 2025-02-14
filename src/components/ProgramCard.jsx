@@ -221,30 +221,38 @@ export const ProgramCard = ({
             </span>
           ))}
         {season && (
-          <span
-            className={`${
-              season === "Summer"
-                ? "bg-yellow-100 text-yellow-600"
-                : season === "Fall"
-                ? "bg-orange-100 text-orange-600"
-                : season === "Winter"
-                ? "bg-blue-100 text-blue-600"
-                : season === "Spring"
-                ? "bg-green-100 text-green-600"
-                : season === "Year Round"
-                ? "bg-gray-100 text-gray-600"
-                : season === "Long Term"
-                ? "bg-indigo-100 text-indigo-600"
-                : season === "1+ Years"
-                ? "bg-teal-100 text-teal-600"
-                : season === "<= 1 Month"
-                ? "bg-red-100 text-red-600"
-                : ""
-            } text-xs font-medium px-2 py-1 rounded`}
-          >
-            {season}
-          </span>
+          <div className="flex flex-wrap gap-2">
+            {(Array.isArray(season) ? season : season.split(",")).map(
+              (s, index) => (
+                <span
+                  key={index}
+                  className={`${
+                    s.trim() === "Summer"
+                      ? "bg-yellow-100 text-yellow-600"
+                      : s.trim() === "Fall"
+                      ? "bg-orange-100 text-orange-600"
+                      : s.trim() === "Winter"
+                      ? "bg-blue-100 text-blue-600"
+                      : s.trim() === "Spring"
+                      ? "bg-green-100 text-green-600"
+                      : s.trim() === "Year Round"
+                      ? "bg-gray-100 text-gray-600"
+                      : s.trim() === "Long Term"
+                      ? "bg-indigo-100 text-indigo-600"
+                      : s.trim() === "1+ Years"
+                      ? "bg-teal-100 text-teal-600"
+                      : s.trim() === "<= 1 Month"
+                      ? "bg-red-100 text-red-600"
+                      : "bg-black text-white"
+                  } text-xs font-medium px-2 py-1 rounded`}
+                >
+                  {s.trim()}
+                </span>
+              )
+            )}
+          </div>
         )}
+
         {(cost === "Paid/Stipend" ||
           cost === "Aid Available" ||
           cost === "No Aid Available") && (
@@ -329,18 +337,40 @@ export const ProgramCard = ({
             {grade && (
               <div>
                 <span className="font-medium">Grade: </span>
-                {grade[0] === grade[grade.length - 1]
-                  ? grade[0]
-                  : `${grade[0]} - ${grade[grade.length - 1]}`}
+                {grade.length > 0 &&
+                  (() => {
+                    const gradeOrder = [
+                      "Freshman",
+                      "Sophomore",
+                      "Junior",
+                      "Senior",
+                    ];
+                    const sortedGrades = [...grade].sort(
+                      (a, b) => gradeOrder.indexOf(a) - gradeOrder.indexOf(b)
+                    );
+
+                    return sortedGrades[0] ===
+                      sortedGrades[sortedGrades.length - 1]
+                      ? sortedGrades[0]
+                      : `${sortedGrades[0]} - ${
+                          sortedGrades[sortedGrades.length - 1]
+                        }`;
+                  })()}
               </div>
             )}
 
             {age && (
               <div>
                 <span className="font-medium">Age: </span>
-                {age[0] === age[age.length - 1]
-                  ? age[0]
-                  : `${age[0]} - ${age[age.length - 1]}`}
+                {age.length > 0 &&
+                  (() => {
+                    const sortedAges = [...age].sort((a, b) => a - b);
+                    return sortedAges[0] === sortedAges[sortedAges.length - 1]
+                      ? sortedAges[0]
+                      : `${sortedAges[0]} - ${
+                          sortedAges[sortedAges.length - 1]
+                        }`;
+                  })()}
               </div>
             )}
           </div>
