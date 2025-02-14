@@ -90,7 +90,7 @@ export const ProgramCard = ({
     >
       {/* Header Section */}
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-800 flex items-center">
+        <h2 className="text-xl font-semibold text-gray-800 flex items-center w-[80%]">
           {name}
           {link && (
             <a
@@ -114,12 +114,12 @@ export const ProgramCard = ({
         {/* Favorite Button */}
         <button
           onClick={toggleFavorite} // Update favorite state
-          className="favorite-btn text-gray-400 hover:text-[#A780C0]"
+          className="favorite-btn text-gray-400 hover:text-[#A780C0] cursor-pointer"
         >
           {isFavorited ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-[#A780C0]"
+              className="h-6 w-6 text-[#A780C0] transition duration-300"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -210,7 +210,8 @@ export const ProgramCard = ({
           </div>
         )}
 
-        {skills && skills[0] != "TBA" &&
+        {skills &&
+          skills[0] != "TBA" &&
           skills.map((skill, index) => (
             <span
               key={index}
