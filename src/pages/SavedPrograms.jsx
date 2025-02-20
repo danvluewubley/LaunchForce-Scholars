@@ -8,7 +8,7 @@ import {
   doc,
   getDoc,
 } from "firebase/firestore";
-import { ProgramCard } from "../components/ProgramCard/ProgramCard";
+import { ProgramCard } from "../components/Database/ProgramCard/ProgramCard";
 import { useNavigate } from "react-router-dom";
 
 export const SavedPrograms = () => {

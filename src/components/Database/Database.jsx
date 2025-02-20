@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ProgramCard } from "./ProgramCard/ProgramCard";
-import { FilterPanel } from "./FilterPanel";
-import { fetchOpportunities } from "../utils/fetchOpportunities";
+import { FilterPanel } from "../Filter/FilterPanel";
+import { fetchOpportunities } from "../../utils/fetchOpportunities";
 import { Pagination } from "./Pagination";
 import { SearchBar } from "./SearchBar";
 
