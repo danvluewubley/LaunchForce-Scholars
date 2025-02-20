@@ -12,10 +12,8 @@ export const Database = () => {
     location: [],
     type: [],
     areaOfInterest: [],
-    skills: [],
     age: [],
     grade: [],
-    eligibility: [],
     eligibility: [],
   });
   const [opportunitiesList, setOpportunitiesList] = useState([]);
@@ -46,26 +44,20 @@ export const Database = () => {
 
         const matchesSeason =
           filters.season.length === 0 ||
-          filters.season.includes(program.season);
+          filters.season.some((season) => program.season.includes(season));
         const matchesCost =
-          filters.cost.length === 0 || filters.cost.includes(program.cost);
+          filters.cost.length === 0 ||
+          filters.cost.some((cost) => program.cost.includes(cost));
         const matchesLocation =
           filters.location.length === 0 ||
           filters.location.includes(program.location);
         const matchesType =
-          filters.type.length === 0 || filters.type.includes(program.type);
+          filters.type.length === 0 ||
+          filters.type.some((type) => program.type.includes(type));
         const matchesAreaOfInterest =
           filters.areaOfInterest.length === 0 ||
           filters.areaOfInterest.some((areaOfInterest) =>
             program.areaOfInterest.includes(areaOfInterest)
-          );
-        const matchesSkills =
-          filters.skills.length === 0 ||
-          filters.skills.some((filterSkill) =>
-            program.skills.some(
-              (programSkill) =>
-                programSkill.toLowerCase() === filterSkill.toLowerCase()
-            )
           );
 
         const matchesAge =
@@ -77,8 +69,12 @@ export const Database = () => {
           filters.grade.some((grade) => program.grade.includes(grade));
 
         const matchesEligibility =
-          filters.eligibility.length === 0 ||
-          filters.eligibility.includes(program.eligibility);
+          filters.eligibility?.length === 0 ||
+          filters.eligibility?.some((eligibility) => {
+            const result = program.eligibility?.includes(eligibility);
+            return result;
+          });
+
 
         return (
           matchesSearch &&
@@ -87,7 +83,6 @@ export const Database = () => {
           matchesLocation &&
           matchesType &&
           matchesAreaOfInterest &&
-          matchesSkills &&
           matchesAge &&
           matchesGrade &&
           matchesEligibility

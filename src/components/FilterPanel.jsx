@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { CheckboxFilter } from "./CheckboxFilter";
+import { db } from "../configs/firebase";
+import { doc } from "firebase/firestore";
 
 export const FilterPanel = ({ filters, setFilters }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -86,17 +88,9 @@ export const FilterPanel = ({ filters, setFilters }) => {
         "Computer Science",
         "Biochemistry",
         "Social Advocacy",
-      ],
-    },
-    {
-      label: "Skills Learned",
-      key: "skills",
-      options: [
-        "Communication",
-        "Machine Learning",
-        "Data Science",
-        "Python",
-        "Statistics",
+        "Math",
+        "Physics",
+        "Engineering",
       ],
     },
     {
@@ -112,7 +106,7 @@ export const FilterPanel = ({ filters, setFilters }) => {
     {
       label: "Eligility",
       key: "eligibility",
-      options: ["Female", "Minority"],
+      options: ["Female", "Minority", "Male-Identifying Students"],
     },
   ];
 

@@ -53,6 +53,7 @@ export const ProgramCard = ({
       !e.target.closest(".website-link")
     ) {
       setIsExpanded((prev) => !prev);
+      console.log(id);
     }
   };
 
@@ -148,18 +149,28 @@ export const ProgramCard = ({
 
       {/* Tags Section */}
       <div className="flex flex-wrap gap-2 mt-2">
-        {eligibility && eligibility !== "None" && (
-          <span
-            className={`${
-              eligibility === "Minority"
-                ? "bg-purple-100 text-purple-600"
-                : eligibility === "Female"
-                ? "bg-pink-100 text-pink-600"
-                : "bg-yellow-100 text-yellow-600"
-            } text-xs font-medium px-2 py-1 rounded`}
-          >
-            {eligibility}
-          </span>
+        {eligibility && eligibility !== "None" && eligibility !== "N/A" && (
+          <div className="flex flex-wrap gap-2">
+            {(Array.isArray(eligibility)
+              ? eligibility
+              : eligibility.split(",")
+            ).map((elig, index) => (
+              <span
+                key={index}
+                className={`${
+                  elig.trim() === "Minority"
+                    ? "bg-purple-100 text-purple-600"
+                    : elig.trim() === "Female"
+                    ? "bg-yellow-100 text-yellow-600"
+                    : elig.trim() === "Male-Identifying Students"
+                    ? "bg-blue-100 text-blue-600"
+                    : "bg-black text-white"
+                } text-xs font-medium px-2 py-1 rounded`}
+              >
+                {elig.trim()}
+              </span>
+            ))}
+          </div>
         )}
 
         {areaOfInterest && (
@@ -201,6 +212,12 @@ export const ProgramCard = ({
                     ? "bg-pink-100 text-pink-600"
                     : interest.trim() === "Social Advocacy"
                     ? "bg-orange-100 text-orange-600"
+                    : interest.trim() === "Math"
+                    ? "bg-blue-200 text-blue-800"
+                    : interest.trim() === "Physics"
+                    ? "bg-purple-200 text-purple-800"
+                    : interest.trim() === "Engineering"
+                    ? "bg-red-200 text-red-800"
                     : "bg-black text-white"
                 } text-xs font-medium px-2 py-1 rounded`}
               >
@@ -209,80 +226,42 @@ export const ProgramCard = ({
             ))}
           </div>
         )}
-
-        {skills &&
-          skills[0] != "TBA" &&
-          skills.map((skill, index) => (
-            <span
-              key={index}
-              className="bg-blue-100 text-blue-600 text-xs font-medium px-2 py-1 rounded"
-            >
-              {skill}
-            </span>
-          ))}
-        {season && (
+        {cost.includes([
+          "Paid/Stipend",
+          "Aid Available",
+          "No Aid Available",
+        ]) && (
           <div className="flex flex-wrap gap-2">
-            {(Array.isArray(season) ? season : season.split(",")).map(
-              (s, index) => (
-                <span
-                  key={index}
-                  className={`${
-                    s.trim() === "Summer"
-                      ? "bg-yellow-100 text-yellow-600"
-                      : s.trim() === "Fall"
-                      ? "bg-orange-100 text-orange-600"
-                      : s.trim() === "Winter"
-                      ? "bg-blue-100 text-blue-600"
-                      : s.trim() === "Spring"
-                      ? "bg-green-100 text-green-600"
-                      : s.trim() === "Year Round"
-                      ? "bg-gray-100 text-gray-600"
-                      : s.trim() === "Long Term"
-                      ? "bg-indigo-100 text-indigo-600"
-                      : s.trim() === "1+ Years"
-                      ? "bg-teal-100 text-teal-600"
-                      : s.trim() === "<= 1 Month"
-                      ? "bg-red-100 text-red-600"
-                      : "bg-black text-white"
-                  } text-xs font-medium px-2 py-1 rounded`}
-                >
-                  {s.trim()}
-                </span>
-              )
-            )}
+            {(Array.isArray(cost) ? cost : cost.split(",")).map((c, index) => (
+              <span
+                key={index}
+                className={`${
+                  c.trim() === "Paid/Stipend"
+                    ? "bg-green-100 text-green-600"
+                    : c.trim() === "Aid Available"
+                    ? "bg-teal-100 text-teal-600"
+                    : c.trim() === "No Aid Available"
+                    ? "bg-red-100 text-red-600"
+                    : ""
+                } text-xs font-medium px-2 py-1 rounded`}
+              >
+                {c.trim()}
+              </span>
+            ))}
           </div>
         )}
 
-        {(cost === "Paid/Stipend" ||
-          cost === "Aid Available" ||
-          cost === "No Aid Available") && (
-          <span
-            className={`${
-              cost === "Paid/Stipend"
-                ? "bg-green-100 text-green-600" // Green for Paid/Stipend
-                : cost === "Aid Available"
-                ? "bg-teal-100 text-teal-600" // Teal for Aid Available
-                : cost === "No Aid Available"
-                ? "bg-red-100 text-red-600" // Red for No Aid Available
-                : ""
-            } text-xs font-medium px-2 py-1 rounded`}
-          >
-            {cost === "Paid/Stipend"
-              ? "Paid/Stipend"
-              : cost === "Free"
-              ? "Free"
-              : cost === "Aid Available"
-              ? "Aid Available"
-              : cost === "No Aid Available"
-              ? "No Aid Available"
-              : ""}
-          </span>
-        )}
-
         {type && (
-          <span className="bg-green-100 text-green-600 text-xs font-medium px-2 py-1 rounded">
-            {type}
-          </span>
+          <div className="flex flex-wrap gap-2">
+            {(Array.isArray(type) ? type : type.split(",")).map((t, index) => (
+              <span
+                key={index}
+                className="bg-green-100 text-green-600 text-xs font-medium px-2 py-1 rounded"
+              >
+                {t.trim()}
+              </span>
+            ))}
+          </div>
         )}
       </div>
 
@@ -299,17 +278,25 @@ export const ProgramCard = ({
       {cost && (
         <div className="mt-2 text-gray-700">
           <span className="font-medium">Cost: </span>
-          {cost === "Free"
-            ? "Free"
-            : cost === "$1-100"
-            ? "$"
-            : cost === "$101-500"
-            ? "$$"
-            : cost === "$501-1000"
-            ? "$$$"
-            : cost === "$1000+"
-            ? "$$$$"
-            : ""}
+          {(Array.isArray(cost) ? cost : cost.split(",")).map((c, index) => {
+            const trimmedCost = c.trim();
+            return (
+              <span key={index}>
+                {trimmedCost === "$1-100"
+                  ? "$"
+                  : trimmedCost === "$101-500"
+                  ? "$$"
+                  : trimmedCost === "$501-1000"
+                  ? "$$$"
+                  : trimmedCost === "$1000+"
+                  ? "$$$$"
+                  : null}
+              </span>
+            );
+          })}
+          {(Array.isArray(cost) ? cost : cost.split(",")).every((c) =>
+            c.trim().startsWith("$") ? false : true
+          ) && <span>Free</span>}
         </div>
       )}
 
@@ -359,7 +346,7 @@ export const ProgramCard = ({
               </div>
             )}
 
-            {age && (
+            {age.length > 0 && (
               <div>
                 <span className="font-medium">Age: </span>
                 {age.length > 0 &&
@@ -374,10 +361,7 @@ export const ProgramCard = ({
               </div>
             )}
           </div>
-          <button
-            onClick={toggleCard}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-          >
+          <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 cursor-pointer">
             Close
           </button>
         </div>
