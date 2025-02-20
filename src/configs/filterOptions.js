@@ -1,3 +1,15 @@
+/**
+ * Filter options configuration for program/opportunity search functionality
+ * @type {Array<FilterCategory>}
+ */
+
+/**
+ * @typedef {Object} FilterCategory
+ * @property {string} label - Display name for the filter category
+ * @property {string} key - Unique identifier for the filter category
+ * @property {string[]} options - Available filter options within the category
+ */
+
 export const filterOptions = [
   {
     label: "Season",
