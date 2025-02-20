@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db, auth } from "../configs/firebase";
+import { db, auth } from "../../configs/firebase";
 import {
   collection,
   addDoc,
@@ -12,7 +12,6 @@ import {
 
 export const ProgramCard = ({
   name,
-  skills,
   description,
   deadline,
   location,
@@ -260,6 +259,33 @@ export const ProgramCard = ({
                 {t.trim()}
               </span>
             ))}
+          </div>
+        )}
+
+        {season && (
+          <div className="flex flex-wrap gap-2">
+            {(Array.isArray(season) ? season : season.split(",")).map(
+              (s, index) => {
+                const seasonColors = {
+                  Summer: "bg-yellow-100 text-yellow-600",
+                  Fall: "bg-orange-100 text-orange-600",
+                  Winter: "bg-blue-100 text-blue-600",
+                  Spring: "bg-green-100 text-green-600",
+                };
+
+                const colorClass =
+                  seasonColors[s.trim()] || "bg-gray-100 text-gray-600";
+
+                return (
+                  <span
+                    key={index}
+                    className={`${colorClass} text-xs font-medium px-2 py-1 rounded`}
+                  >
+                    {s.trim()}
+                  </span>
+                );
+              }
+            )}
           </div>
         )}
       </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ProgramCard } from "./ProgramCard";
+import { ProgramCard } from "./ProgramCard/ProgramCard";
 import { FilterPanel } from "./FilterPanel";
 import { fetchOpportunities } from "../utils/fetchOpportunities";
 import { Pagination } from "./Pagination";
