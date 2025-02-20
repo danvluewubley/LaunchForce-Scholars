@@ -53,7 +53,6 @@ export const ProgramCard = ({
       !e.target.closest(".website-link")
     ) {
       setIsExpanded((prev) => !prev);
-      console.log(id);
     }
   };
 
