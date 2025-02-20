@@ -39,7 +39,7 @@ firebase deploy
 
 ## Demo
 
-https://launchforce-scholars.web.app/
+[LaunchForce Scholars Demo](https://launchforce-scholars.web.app/)
 
 
 ## Support
