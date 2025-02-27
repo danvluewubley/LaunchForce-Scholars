@@ -1,78 +1,47 @@
-import React, { useState } from "react";
-import { useFavorite } from "./hooks/useFavorite";
-import { CardHeader } from "./components/CardHeader";
-import { TagsSection } from "./components/TagsSection";
-import { CardFooter } from "./components/CardFooter";
-import { ExpandedContent } from "./components/ExpandedContent";
-import { CostDisplay } from "./components/CostDisplay";
+import React from "react";
 
-export const ProgramCard = ({
-  name,
-  description,
-  deadline,
-  location,
-  link,
-  season,
-  cost,
-  type,
-  grade,
-  age,
-  areaOfInterest,
-  id,
-  eligibility,
-  isRollingDeadline,
-}) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const { isFavorited, toggleFavorite } = useFavorite(id);
+export const ExpandedContent = ({ grade, age }) => {
+  const formatGradeRange = (grades) => {
+    if (!grades || grades.length === 0) return "";
 
-  const toggleCard = (e) => {
-    if (
-      !e.target.closest(".favorite-btn") &&
-      !e.target.closest(".website-link")
-    ) {
-      setIsExpanded((prev) => !prev);
-    }
+    const gradeOrder = ["Freshman", "Sophomore", "Junior", "Senior"];
+    const sortedGrades = [...grades].sort(
+      (a, b) => gradeOrder.indexOf(a) - gradeOrder.indexOf(b)
+    );
+
+    return sortedGrades[0] === sortedGrades[sortedGrades.length - 1]
+      ? sortedGrades[0]
+      : `${sortedGrades[0]} - ${sortedGrades[sortedGrades.length - 1]}`;
+  };
+
+  const formatAgeRange = (ages) => {
+    if (!ages || ages.length === 0) return "";
+
+    const sortedAges = [...ages].sort((a, b) => a - b);
+    return sortedAges[0] === sortedAges[sortedAges.length - 1]
+      ? sortedAges[0]
+      : `${sortedAges[0]} - ${sortedAges[sortedAges.length - 1]}`;
   };
 
   return (
-    <div
-      onClick={toggleCard}
-      className="bg-white shadow-lg rounded-lg p-6 w-full max-w-xs lg:max-w-md border border-gray-200 cursor-pointer"
-    >
-      <CardHeader
-        name={name}
-        link={link}
-        isFavorited={isFavorited}
-        toggleFavorite={toggleFavorite}
-      />
-
-      <TagsSection
-        eligibility={eligibility}
-        areaOfInterest={areaOfInterest}
-        cost={cost}
-        type={type}
-        season={season}
-      />
-
-      <p
-        className={`text-gray-600 mt-3 text-sm ${
-          isExpanded ? "" : "line-clamp-2"
-        }`}
-      >
-        {description}
-      </p>
-
-      {cost && <CostDisplay cost={cost} />}
-
-      <CardFooter
-        deadline={deadline}
-        location={location}
-        isRollingDeadline={isRollingDeadline}
-      />
-
-      {isExpanded && <ExpandedContent grade={grade} age={age} />}
+    <div className="mt-4 flex justify-between">
+      <div className="text-sm text-gray-700">
+        {grade && grade.length > 0 && (
+          <div>
+            <span className="font-medium">Grade: </span>
+            {formatGradeRange(grade)}
+          </div>
+        )}
+        {age && age.length > 0 && (
+          <div>
+            <span className="font-medium">Age: </span>
+            {formatAgeRange(age)}
+          </div>
+        )}
+      </div>
+      <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 cursor-pointer">
+        Close
+      </button>
     </div>
   );
 };
-
-export default ProgramCard;

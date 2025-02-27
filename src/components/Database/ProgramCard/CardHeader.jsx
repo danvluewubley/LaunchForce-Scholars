@@ -1,3 +1,5 @@
+import React from 'react'
+
 export const CardHeader = ({ name, link, isFavorited, toggleFavorite }) => {
   return (
     <div className="flex justify-between items-center">

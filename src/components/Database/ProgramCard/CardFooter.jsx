@@ -1,3 +1,5 @@
+import React from "react";
+
 export const CardFooter = ({ deadline, location, isRollingDeadline }) => {
   return (
     <div className="mt-4 flex justify-between text-sm text-gray-700">
