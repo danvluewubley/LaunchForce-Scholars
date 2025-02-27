@@ -1,97 +1,70 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Tag } from "./Tag";
-import { ToggleButton } from "./ToggleButton";
+import { Tag } from "./Tag"; // Assuming Tag is a component for each individual tag.
+import { ToggleButton } from "./ToggleButton"; // Assuming a ToggleButton to toggle the visibility of tags.
 
 export const TruncatableTags = ({ tags }) => {
   const [expanded, setExpanded] = useState(false);
   const containerRef = useRef(null);
-  const [isOverflowing, setIsOverflowing] = useState(false);
   const [maxVisibleTags, setMaxVisibleTags] = useState(Infinity);
+  const [isOverflowing, setIsOverflowing] = useState(false);
 
-  // Check if tags are overflowing
   useEffect(() => {
+    if (!containerRef.current) return;
+
     const checkOverflow = () => {
-      if (!containerRef.current) return;
+      const containerWidth = containerRef.current.offsetWidth;
+      const tagElements = Array.from(
+        containerRef.current.querySelectorAll(".tag-item")
+      );
 
-      // If already expanded, show all tags
-      if (expanded) {
-        setMaxVisibleTags(Infinity);
-        setIsOverflowing(false);
-        return;
-      }
+      // Reset the max visible tags calculation
+      let totalWidth = 0;
+      let visibleTagCount = 0;
 
-      // Reset to show all tags for measurement
-      setMaxVisibleTags(Infinity);
+      tagElements.forEach((tag, index) => {
+        const tagWidth = tag.offsetWidth + 8; // Tag width + margin
 
-      // Wait for DOM update
-      setTimeout(() => {
-        if (!containerRef.current) return;
-
-        const containerWidth = containerRef.current.offsetWidth;
-        const tagElements = Array.from(
-          containerRef.current.querySelectorAll(".tag-item")
-        );
-
-        // If no tags, exit early
-        if (tagElements.length === 0) {
-          setIsOverflowing(false);
+        // If the tag would overflow, stop counting
+        if (totalWidth + tagWidth > containerWidth) {
+          setIsOverflowing(true);
           return;
         }
 
-        let currentWidth = 0;
-        let visibleCount = 0;
+        totalWidth += tagWidth;
+        visibleTagCount++;
+      });
 
-        // Reserve space for "more" button (approximately 80px)
-        const moreButtonWidth = 80;
-
-        for (let i = 0; i < tagElements.length; i++) {
-          const tag = tagElements[i];
-          // Include tag width plus gap (8px)
-          const tagWidth = tag.offsetWidth + 8;
-
-          // If adding this tag would overflow (accounting for "more" button)
-          if (
-            currentWidth +
-              tagWidth +
-              (i < tagElements.length - 1 ? moreButtonWidth : 0) >
-            containerWidth
-          ) {
-            break;
-          }
-
-          currentWidth += tagWidth;
-          visibleCount++;
-        }
-
-        // Ensure we show at least one tag
-        visibleCount = Math.max(1, visibleCount);
-
-        // If we can show all tags, no truncation needed
-        if (visibleCount >= tagElements.length) {
-          setIsOverflowing(false);
-          setMaxVisibleTags(Infinity);
-        } else {
-          setIsOverflowing(true);
-          setMaxVisibleTags(visibleCount);
-        }
-      }, 10);
+      // If we have overflow, set the max visible tags count
+      if (visibleTagCount < tags.length) {
+        setMaxVisibleTags(visibleTagCount);
+      } else {
+        setIsOverflowing(false);
+      }
     };
 
+    // Run overflow check on initial render
     checkOverflow();
-    window.addEventListener("resize", checkOverflow);
 
+    // Run overflow check on window resize
+    window.addEventListener("resize", checkOverflow);
     return () => {
       window.removeEventListener("resize", checkOverflow);
     };
-  }, [expanded, tags]);
+  }, [tags, expanded]);
 
+  // Determine the tags to display based on the expanded state
   const visibleTags = expanded ? tags : tags.slice(0, maxVisibleTags);
   const hiddenCount = tags.length - visibleTags.length;
 
   return (
     <div ref={containerRef} className="flex flex-wrap gap-2 mt-2 relative">
       {visibleTags.map((tag, index) => (
-        <Tag key={`${tag.type}-${index}`} text={tag.text} type={tag.type} />
+        <Tag
+          key={`${tag.type}-${index}`}
+          text={tag.text}
+          type={tag.type}
+          className="tag-item"
+        />
       ))}
 
       {isOverflowing && !expanded && hiddenCount > 0 && (
