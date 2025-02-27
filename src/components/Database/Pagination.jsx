@@ -12,7 +12,7 @@ export const Pagination = ({ currentPage, totalPages, setCurrentPage }) => {
       <button
         onClick={() => goToPage(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-4 py-2 bg-gray-300 rounded-lg"
+        className="px-4 py-2 bg-gray-300 rounded-lg cursor-pointer"
       >
         Prev
       </button>
@@ -22,7 +22,7 @@ export const Pagination = ({ currentPage, totalPages, setCurrentPage }) => {
       <button
         onClick={() => goToPage(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="px-4 py-2 bg-gray-300 rounded-lg"
+        className="px-4 py-2 bg-gray-300 rounded-lg cursor-pointer"
       >
         Next
       </button>
