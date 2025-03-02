@@ -31,9 +31,9 @@ export const filterOptions = [
     options: [
       "Paid/Stipend",
       "Free",
-      "Aid Available",
-      "No Aid Available",
-      "$0-100",
+      // "Aid Available",
+      // "No Aid Available",
+      "$1-100",
       "$101-500",
       "$501-1000",
       "$1000+",
@@ -42,7 +42,7 @@ export const filterOptions = [
   {
     label: "Location",
     key: "location",
-    options: ["NYC", "USA (residential)", "Virtual", "Hybrid"],
+    options: ["NYC", "Residential", "Virtual", "Hybrid"],
   },
   {
     label: "Type",
